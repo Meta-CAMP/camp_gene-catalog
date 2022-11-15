@@ -183,8 +183,6 @@ rule compute_relative_abundances:
             d.columns=[i.split('/')[-1].replace('.tsv','')]
             aligned.append(d)
         out = reduce(lambda x, y: pd.merge(x, y, left_index = True,right_index = True), aligned)
-        print(out)
-        print(genelengths)
         out2=pd.merge(genelengths,out,left_index=True,right_index=True).drop(['Start','Stop'],axis=1)
         out2.to_csv(params.outdir + '/gene_catalog_filtered_counts.tsv',sep='\t')
         for ii in out2.columns[1:]:
