@@ -77,7 +77,7 @@ To run CAMP on the command line, use the following, where ``/path/to/work/dir`` 
     - The default number of cores available to Snakemake is 1 which is enough for test data, but should probably be adjusted to 10+ for a real dataset.
     - Relative or absolute paths to the Snakefile and/or the working directory (if you're running elsewhere) are accepted!
 ```
-python /path/to/camp_short-read-quality-control/workflow/short-read-quality-control.py -d /path/to/work/dir -s /path/to/samples.csv
+python /path/to/camp_gene-catalog/workflow/gene-catalog.py -d /path/to/work/dir -s /path/to/samples.csv
 ```
 
 * Note: This setup allows the main Snakefile to live outside of the work directory.
@@ -90,7 +90,7 @@ To run CAMP on a job submission cluster (for now, only Slurm is supported), use 
 ```
     sbatch -J jobname -o jobname.log << "EOF"
     #!/bin/bash
-    python /path/to/camp_short-read-quality-control/workflow/gene-catalog.py --slurm \
+    python /path/to/camp_gene-catalog/workflow/gene-catalog.py --slurm \
         (-c max_number_of_parallel_jobs_submitted) \
         -d /path/to/work/dir \
         -s /path/to/samples.csv
