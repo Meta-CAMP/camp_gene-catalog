@@ -91,7 +91,7 @@ rule filter_gene_catalog:
         genecat=join(dirs.OUT,'mmseqs','genecat_rep_seq.fasta'),
         clusterfile=join(dirs.OUT,'mmseqs','genecat_cluster.tsv'),
     output:
-        join(dirs.OUT,'mmseqs','clusters_rep_seq_filtered.fasta'),
+        join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.fasta'),
     threads: config['filter_gene_catalog_threads'],
     resources:
         mem_mb = config['filter_gene_catalog_mem_mb'],
