@@ -30,4 +30,4 @@ run_alignments_mem_mb: 256000
 
 # --- compute_relative_abundances --- #
 
-compute_relative_abundance_mem_mb: 256000
+compute_relative_abundances_mem_mb: 256000
