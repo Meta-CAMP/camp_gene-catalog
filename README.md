@@ -15,14 +15,18 @@ Installation
 1. Clone repo from `Github tutorial <https://github.com/MetaSUB-CAMP/camp_gene-catalog>`.
 
 2. Set up the conda environment using ``configs/conda/gene-catalog.yaml``. 
-
-<BAKTA DATABASES>
-
-3. Make sure the installed pipeline works correctly. ``pytest`` only generates temporary outputs so no files should be created.
 ```
 cd camp_short-read-quality-control
 conda env create -f configs/conda/gene-catalog.yaml
 conda activate gene-catalog
+```
+3. AFTER activating the conda environment, download the bakta databases to a directory of your choosing. Make sure you update the parameters.yaml file with its location.
+
+```
+bakta_db download --output /path/to/bakta/db
+```
+4. Test everything
+```
 pytest .tests/unit/
 ```    
 
@@ -40,7 +44,7 @@ Running each CAMP module takes the same three steps, listed below.
 <SAMPLES.CSV FORMAT>
 
 3. Deploy!
-::
+
 <SNAKEMAKE COMMAND>
 
 Module details
