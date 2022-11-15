@@ -1,0 +1,9 @@
+,illumina_fwd,illumina_rev
+S10,data/10_R1_001.fastq.gz,data/10_R2_001.fastq.gz
+S1,data/1_R1_001.fastq.gz,data/1_R2_001.fastq.gz
+S2,data/2_R1_001.fastq.gz,data/2_R2_001.fastq.gz
+S3,data/3_R1_001.fastq.gz,data/3_R2_001.fastq.gz
+S4,data/4_R1_001.fastq.gz,data/4_R2_001.fastq.gz
+S5,data/5_R1_001.fastq.gz,data/5_R2_001.fastq.gz
+S6,data/6_R1_001.fastq.gz,data/6_R2_001.fastq.gz
+S7,data/7_R1_001.fastq.gz,data/7_R2_001.fastq.gz

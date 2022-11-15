@@ -1,0 +1,19 @@
+#'''Parameters config.'''#
+
+
+# --- general --- #
+
+threads: 16
+metaspades_maxmem: 128
+
+# --- host_read_removal --- #
+
+host_removal_reference_database: databases/GRCh38_noalt_as
+
+# --- adapter removal --- #
+adapters: databases/adapters.fa
+
+# --- annotation --- #
+
+annotation_diamond_db: databases/uniref90.dmnd 
+uniref_annotation_mapping: databases/uniref_90_annotation_mapping
