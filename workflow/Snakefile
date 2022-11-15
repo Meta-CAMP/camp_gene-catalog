@@ -97,7 +97,7 @@ rule filter_gene_catalog:
         mem_mb = config['filter_gene_catalog_mem_mb'],
     params:
         outdir=join(dirs.OUT,'mmseqs'),
-        filterprev=config['min_prevalence'],
+        filterprev=config['min_gene_prevalence'],
     run:
         clusters = []
         with open('{input.clusterfile}') as f:
