@@ -113,7 +113,7 @@ rule filter_gene_catalog:
         with open(params.outdir+'/genecat_rep_seq_filtered.fasta','w') as w:
             for i in tokeep:
                 w.write('>' + i + '\n')
-                w.wrote(str(seqs[i].seq) + '\n')
+                w.write(str(seqs[i].seq) + '\n')
 
     
 #rule index_gene_catalog:
