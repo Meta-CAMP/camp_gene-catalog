@@ -123,21 +123,77 @@ rule filter_gene_catalog:
                 w.write(str(seqs[i].seq) + '\n')
 
     
-#rule index_gene_catalog:
-        
-#rule compute_relative_abundance:
- #   input:
- #       join(dirs.OUT,'mmseqs','clusters_30perc_rep_seq.fasta')
-  #  output:
-  #      join()
-   # threads: config['index_gene_catalog_threads'],
-   # resources:
-   #     mem_mb = config['index_gene_catalog_mem_mb'],
+rule index_gene_catalog:
+    input:
+        repseqs = join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.fasta'),
+    output:
+        join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.dmnd'),
+    threads: config['index_gene_catalog_threads'],
+    resources:
+        mem_mb = config['index_gene_catalog_mem_mb'],
+        outfile = join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.dmnd'),
+    shell:
+        """
+        diamond makedb --db {input.repseqs}  --in {params.outfile}
+        """
+
+    
+rule compute_relative_abundance:
+    input:
+        fwd = join(dirs.TMP, '{sample}_1.fastq'),
+        rev = join(dirs.TMP, '{sample}_2.fastq'),
+        idx = join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.dmnd'),
+    output:
+        join(dirs.TMP,'relative_abundances','{sample}.tsv'),
+    threads: config['relab_gene_catalog_threads'],
+    resources:
+        mem_mb = config['relab_gene_catalog_mem_mb'],
+    params:
+        sampletempname=join(dirs.TMP,'relative_abundances','{sample}_temp.fastq'),
+        outfile = join(dirs.TMP,'relative_abundances','{sample}.tsv'),
+        blocksize = config['diamond_blocksize']
+    shell:
+        """
+        cat {input.fwd} {input.rev} > {params.sampletempname}
+        diamond blastx --db {input.idx} --query {params.sampletempname} -b {blocksize} -p {threads} -o {params.sampletempname}_output
+        cut -f2 {params.sampletempname}_output | sort | uniq -cd  | awk '{$1=$1};1' | awk '{print $2,$1}' | sed 's/ /\t/g' > {params.outfile}
+        rm {params.sampletempname} {params.sampletempname}_output
+        """
+
+rule compute_relative_abundances:
+    input:
+        expand(join(dirs.TMP,'relative_abundances','{sample}.tsv'),sample=SAMPLES)
+    output:
+        join(dirs.OUT,'merged_abundance_data','gene_catalog_filtered_relative_abundances.tsv'),
+        join(dirs.OUT,'merged_abundance_data','gene_catalog_filtered_counts.tsv'),
+    resources:
+        mem_mb = config['compute_relative_abundances_mem_mb'],
+    params:
+        annotationfile = join(dirs.OUT,'annotations','orf_annotations.tsv'),
+        outdir = join(dirs.OUT,'merged_abundance_data'),
+    run:
+        genelengths = pd.read_csv(params.annotationfile,sep=',',index_col=6).loc[:,['Start','Stop']]
+        genelengths['gene_length'] = genelengths.Stop - genelengths.Start
+        aligned = []
+        for i in input:
+            d = pd.read_csv(i,index_col=0,sep='\t',header=None)
+	        d.columns=[f.split('/')[-1].replace('.tsv','')]
+	        aligned.append(d)
+        out = reduce(lambda x, y: pd.merge(x, y, left_index = True,right_index = True), aligned)
+        out2=pd.merge([out,genelengths],left_index=True,right_index=True).drop(['Start','Stop'],axis=1)
+        out2.to_csv(params.outdir + '/gene_catalog_filtered_counts.tsv',sep='\t')
+        for ii in out2.columns[1:]:
+            temp = out2.loc[:,ii]/out3.gene_length
+            temp2 = temp/temp.sum()
+            out2.loc[:,ii] = temp2
+        out2.to_csv(params.outdir + '/gene_catalog_filtered_relative_abundances.tsv',sep='\t')
 
 rule make_config:
     input:
         join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.fasta'),
         join(dirs.OUT,'annotations','orf_annotations.tsv'),
+        join(dirs.OUT,'merged_abundance_data','gene_catalog_filtered_relative_abundances.tsv'),
+        join(dirs.OUT,'merged_abundance_data','gene_catalog_filtered_counts.tsv'),
     output:
         join(dirs.OUT, 'samples.csv'),
     run:
