@@ -82,7 +82,7 @@ rule cluster_orfs:
     shell:
         """
         cat {input} > all_seq_data.faa
-        mmseqs {params.mmseqs_runtype} all_seq_data.faa {params.outdir}/genecat tmp --min-seq-id {params.pid} --threads 10 -c {params.coverage} --cov-mode 1 &> {log}
+        mmseqs {params.mmseqs_runtype} all_seq_data.faa {params.outdir}/genecat tmp --min-seq-id {params.pid} --threads {threads} -c {params.coverage} --cov-mode 1 &> {log}
         rm -rf tmp
         """
 
@@ -100,7 +100,7 @@ rule filter_gene_catalog:
         filterprev=config['min_gene_prevalence'],
     run:
         clusters = []
-        with open('{input.clusterfile}') as f:
+        with open(input.clusterfile) as f:
             for line in f:
                 clusters.append(line.rstrip().split('\t'))
         congenes = [x[0] for x in clusters]
@@ -110,7 +110,7 @@ rule filter_gene_catalog:
         clustersize['gene_number'] = [x.split('___')[2] for x in clustersize.index]
         clustersize.to_csv('{params.outdir}/genecat_cluster_sizes.csv')
         tokeep = clustersize[clustersize[0]>=int('{params.filterprev}')].index
-        seqs = SeqIO.to_dict(SeqIO.parse(str('{input.genecat}'), "fasta"))
+        seqs = SeqIO.to_dict(SeqIO.parse(str(input.genecat), "fasta"))
         with open('{params.outdir}/genecat_rep_seq_filtered.fasta','w') as w:
             for i in tokeep:
                 w.write('>' + i + '\n')
