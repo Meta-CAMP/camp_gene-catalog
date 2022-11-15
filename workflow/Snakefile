@@ -138,7 +138,7 @@ rule index_gene_catalog:
         """
 
     
-rule compute_relative_abundance:
+rule run_alignments:
     input:
         fwd = join(dirs.TMP, '{sample}_1.fastq'),
         rev = join(dirs.TMP, '{sample}_2.fastq'),
