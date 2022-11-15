@@ -96,14 +96,6 @@ To run CAMP on a job submission cluster (for now, only Slurm is supported), use 
         -s /path/to/samples.csv
     EOF
 ```
-Quality-checking processed FastQs
-----------------------------------
-
-To quality-check the processed FastQs, download and compare the collated MultiQC reports, which can be found at ``/path/to/work/dir/short_read_qc/final_reports/*_multiqc_report/html``. Multiple rounds of preprocessing may be needed to fully get rid of low-quality bases, adapters, and duplicated sequences. 
-    - For example, the dataset I worked with required an additional round of ``fastp`` to trim 10 low-quality bases from the 5' and 4 low-quality bases from the 3' end respectively. 
-    - I recommend creating a new directory, which I've called ``/path/to/work/dir/short_read_qc/5_retrimming`` and placing reprocessed reads inside them. 
-    - Afterwards, I reran FastQC and MultiQC and collated summary statistics (ex. numbers of reads, etc.) from the reprocessed datasets manually. I also updated the location of the reprocessed reads in ``/path/to/work/dir/short_read_qc/final_reports/samples.csv`` to ``/path/to/work/dir/short_read_qc/5_retrimming``.
-
 
 Dependencies
 ------------
