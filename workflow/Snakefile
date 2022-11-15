@@ -132,10 +132,10 @@ rule index_gene_catalog:
     resources:
         mem_mb = config['index_gene_catalog_mem_mb'],
     params:
-        outfile = join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.dmnd'),
+        dbfile = join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.dmnd'),
     shell:
         """
-        diamond makedb --db {input.repseqs}  --in {params.outfile}
+        diamond makedb --db {params.dbfile} --in {input.repseqs} 
         """
 
     
