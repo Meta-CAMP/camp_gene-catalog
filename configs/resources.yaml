@@ -2,7 +2,7 @@
 
 # --- call_orfs --- #
 
-call_orfs_threads: 10
+call_orfs_threads: 4
 call_orfs_mem_mb: 40000
 
 
@@ -20,5 +20,14 @@ filter_gene_catalog_mem_mb: 40000
 
 # --- index_gene_catalog --- #
 
-index_gene_catalog_threads: 10
-index_gene_catalog_mem_mb: 150000
+index_gene_catalog_threads: 24
+index_gene_catalog_mem_mb: 256000
+
+# --- run_alignments --- #
+
+run_alignments_threads: 4
+run_alignments_mem_mb: 256000
+
+# --- compute_relative_abundances --- #
+
+compute_relative_abundance_mem_mb: 256000
