@@ -131,6 +131,7 @@ rule index_gene_catalog:
     threads: config['index_gene_catalog_threads'],
     resources:
         mem_mb = config['index_gene_catalog_mem_mb'],
+    params:
         outfile = join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.dmnd'),
     shell:
         """
