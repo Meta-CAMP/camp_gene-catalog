@@ -20,10 +20,11 @@ cd camp_short-read-quality-control
 conda env create -f configs/conda/gene-catalog.yaml
 conda activate gene-catalog
 ```
-3. AFTER activating the conda environment, download the bakta databases to a directory of your choosing. Make sure you update the parameters.yaml file with its location.
+3. AFTER activating the conda environment, download the bakta databases to a directory of your choosing. Make sure you update the parameters.yaml file with its location. Use absolute (not relative) paths when downloading the bakta dbs.
 
 ```
 bakta_db download --output /path/to/bakta/db
+amrfinder_update --database full/path/to/bakta/db/amrfinderplus-db
 ```
 4. Test everything
 ```
