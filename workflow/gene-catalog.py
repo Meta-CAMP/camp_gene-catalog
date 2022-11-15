@@ -8,7 +8,7 @@ from os import getcwd, makedirs
 from os.path import abspath, dirname, exists, join
 from snakemake import snakemake, main
 from shutil import rmtree
-from utils import Workflow_Dirs, print_cmds, cleanup_files
+from utils import Workflow_Dirs, print_cmds#, cleanup_files
 
 
 @click.group(cls = DefaultGroup, default = 'run', default_if_no_args = True)
