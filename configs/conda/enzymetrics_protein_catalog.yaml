@@ -1,4 +1,4 @@
-name: enzymetrics
+name: gene-catalog
 channels:
   - agbiome
   - biobakery
@@ -273,4 +273,4 @@ dependencies:
     - wrapt==1.14.1
     - yte==1.5.1
     - zipp==3.8.1
-prefix: /home/btt4001/miniconda3/envs/enzymetrics
+
