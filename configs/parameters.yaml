@@ -13,3 +13,6 @@ coverage: 0.9
 
 # --- filter_gene_catalog --- #
 min_gene_prevalence: 1
+
+# --- run_alignments --- #
+diamond_blocksize: 6
