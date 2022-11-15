@@ -42,7 +42,9 @@ rule call_orfs:
         join(dirs.OUT,'bakta','{sample}','{sample}.gbff'),
     log:
         join(dirs.LOG, 'bakta', '{sample}.out'),
-    threads: 1,
+    threads: config['call_orfs_threads'],
+    resources:
+        mem_mb = config['call_orfs_mem_mb'],
     params:
         outdir=join(dirs.OUT,'bakta','{sample}'),
         sam='{sample}',
@@ -69,7 +71,9 @@ rule cluster_orfs:
         join(dirs.OUT,'mmseqs','genecat_cluster.tsv'),
     log:
         join(dirs.LOG,'mmseqs2','mmseqs.log'),
-    threads: config['threads']
+    threads: config['cluster_orfs_threads'],
+    resources:
+        mem_mb = config['cluster_orfs_mem_mb'],
     params:
         outdir=join(dirs.OUT,'mmseqs'),
         pid=config['genecat_cluster_percent_identity']
@@ -88,7 +92,9 @@ rule filter_gene_catalog:
         clusterfile=join(dirs.OUT,'mmseqs','genecat_cluster.tsv'),
     output:
         join(dirs.OUT,'mmseqs','clusters_rep_seq_filtered.fasta'),
-    threads: config['threads'],
+    threads: config['filter_gene_catalog_threads'],
+    resources:
+        mem_mb = config['filter_gene_catalog_mem_mb'],
     params:
         outdir=join(dirs.OUT,'mmseqs'),
         filterprev=config['min_prevalence'],
@@ -118,6 +124,9 @@ rule filter_gene_catalog:
  #       join(dirs.OUT,'mmseqs','clusters_30perc_rep_seq.fasta')
   #  output:
   #      join()
+   # threads: config['index_gene_catalog_threads'],
+   # resources:
+   #     mem_mb = config['index_gene_catalog_mem_mb'],
 
 rule make_config:
     input:
