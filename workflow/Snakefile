@@ -179,7 +179,7 @@ rule compute_relative_abundances:
         genelengths['gene_length'] = genelengths.Stop - genelengths.Start
         aligned = []
         for i in input:
-            d = pd.read_csv(i,index_col=0,sep='\t',header=None)
+            d = pd.read_csv(i,index_col=0,sep=' ',header=None)
             print(d)
             d.columns=[i.split('/')[-1].replace('.tsv','')]
             aligned.append(d)
