@@ -79,4 +79,3 @@ def print_cmds(log):
                 f_out.write(l.strip() + '\n')
             if 'rule make_config' in l:
                 break
-
