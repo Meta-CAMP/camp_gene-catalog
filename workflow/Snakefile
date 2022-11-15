@@ -9,6 +9,7 @@ import pandas as pd
 from utils import Workflow_Dirs, ingest_samples
 from collections import Counter
 import pandas as pd
+from Bio import SeqIO
 
 
 # Load and/or make the working directory structure
