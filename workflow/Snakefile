@@ -145,9 +145,9 @@ rule run_alignments:
         idx = join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.dmnd'),
     output:
         join(dirs.TMP,'relative_abundances','{sample}.tsv'),
-    threads: config['relab_gene_catalog_threads'],
+    threads: config['run_alignments_threads'],
     resources:
-        mem_mb = config['relab_gene_catalog_mem_mb'],
+        mem_mb = config['run_alignments_mem_mb'],
     params:
         sampletempname=join(dirs.TMP,'relative_abundances','{sample}_temp.fastq'),
         outfile = join(dirs.TMP,'relative_abundances','{sample}.tsv'),
