@@ -158,7 +158,7 @@ rule run_alignments:
         cat {input.fwd} {input.rev} > {params.sampletempname}
         ls {params.sampletempname}
         diamond blastx --db {input.idx} --query {params.sampletempname} -b {params.blocksize} -p {threads} -o {params.sampletempname}_output
-        cut -f2 {params.sampletempname}_output | sort | uniq -cd  | awk "{$1=$1};1" | awk "{print $2,$1}" | sed 's/ /\t/g' > {params.outfile}
+        cut -f2 {params.sampletempname}_output | sort | uniq -cd  | awk "{\$1=\$1};1" | awk "{print \$2,\$1}" | sed 's/ /\t/g' > {params.outfile}
         #rm {params.sampletempname} {params.sampletempname}_output
         """
 
