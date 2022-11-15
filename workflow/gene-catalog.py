@@ -1,4 +1,4 @@
-'''CLI for the CAMP enzymetrics_protein_catalog module.'''
+'''CLI for the CAMP gene-catalog module.'''
 
 
 import click
