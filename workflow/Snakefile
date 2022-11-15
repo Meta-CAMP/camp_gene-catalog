@@ -7,6 +7,8 @@ from os import makedirs
 from os.path import basename, join
 import pandas as pd
 from utils import Workflow_Dirs, ingest_samples
+from collections import Counter
+import pandas as pd
 
 
 # Load and/or make the working directory structure
@@ -24,179 +26,103 @@ rule all:
 
 # --- Workflow steps --- #
 
-rule remove_adapters:
-    input:
-        fwd = join(dirs.TMP,'{sample}_1.fastq.gz'),
-        rev = join(dirs.TMP,'{sample}_2.fastq.gz'),
-    output:
-        outfwd = join(dirs.TMP,'{sample}.adapter_removed.1.fastq.gz'),
-        outrev = join(dirs.TMP,'{sample}.adapter_removed.2.fastq.gz')
-    log:
-        join(dirs.LOG, 'adapter_removal', '{sample}.out'),
-    threads: 8,
-    params:
-        basename=join(dirs.TMP,'{sample}'),
-        adapterloc=config['adapters']
-    shell:
-        """
-        bbduk.sh in={input.fwd}  -Xmx60G  in2={input.rev}  out={output.outfwd}  out2={output.outrev}  interleaved=f  stats={params.basename}_stats_bbduk  overwrite=true  qout=33  trd=t  hdist=1  k=27  ktrim="r"  mink=8  overwrite=true  trimq=10  qtrim='rl'  threads={threads}  minlength=51  maxns=-1  minbasefrequency=0.05  ecco=f  prealloc=t  ref={params.adapterloc} &> {log}
-        """
-
-rule filter_host_reads:
-    input:
-        fwd = join(dirs.TMP,'{sample}.adapter_removed.1.fastq.gz'),
-        rev = join(dirs.TMP,'{sample}.adapter_removed.2.fastq.gz')
-    output:
-        join(dirs.TMP,'{sample}.host_filtered.adapter_removed.1.fastq.gz'),
-        join(dirs.TMP,'{sample}.host_filtered.adapter_removed.2.fastq.gz')
-    log:
-        join(dirs.LOG, 'host_removal', '{sample}.out'),
-    threads: 8,
-    params:
-        basename=join(dirs.TMP,'{sample}'),
-        reference_database=config['host_removal_reference_database']
-    shell:
-        """
-        bowtie2 -x {params.reference_database} -1 {input.fwd} -2 {input.rev} --un-conc-gz {params.basename}.host_filtered.adapter_removed.fastq.gz --very-sensitive --threads {threads} | samtools view -F 4 -b > {params.basename}_mapped_and_unmapped.bam
-        rm {params.basename}_mapped_and_unmapped.bam
-        mv {params.basename}.host_filtered.adapter_removed.fastq.1.gz {params.basename}.host_filtered.adapter_removed.1.fastq.gz
-        mv {params.basename}.host_filtered.adapter_removed.fastq.2.gz {params.basename}.host_filtered.adapter_removed.2.fastq.gz
-        """
-
-rule run_metaspades:
-    input:
-        fwd = join(dirs.TMP,'{sample}.host_filtered.adapter_removed.1.fastq.gz'),
-        rev = join(dirs.TMP,'{sample}.host_filtered.adapter_removed.2.fastq.gz')
-    output:
-        join(dirs.OUT,'assembled','{sample}','contigs.fasta'),
-    log:
-        join(dirs.LOG, 'metaSPAdes', '{sample}.out'),
-    threads: 16,
-    params:
-        metaspades_maxmem=config['metaspades_maxmem'],
-        outpath=join(dirs.OUT,'assembled','{sample}'),
-    shell:
-        """
-        metaspades.py --only-assembler  -1 {input.fwd} -2 {input.rev} -o {params.outpath} -t {threads} -m {params.metaspades_maxmem} &> {log}
-        # clean up assembly files
-        #xargs rm -r {params.outpath}/K* {params.outpath}/misc {params.outpath}/tmp
-        """    
-
 rule call_orfs:
     input:
         contigs=join(dirs.OUT,'assembled','{sample}','contigs.fasta'),
     output:
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.gbk'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.gff'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.fna'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.faa'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.sqn'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.ffn'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.fsa'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.tbl'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.err'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.log'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.txt'),
-        join(dirs.OUT,'prokka','{sample}','{sample}_prokka.tsv'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.faa'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.hypotheticals.tsv'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.log'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.tsv'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.hypotheticals.faa'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.embl'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.fna'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.ffn'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.txt'),
+        join(dirs.OUT,'bakta','{sample}','{sample}.gbff'),
     log:
-        join(dirs.LOG, 'prokka', '{sample}.out'),
-    threads: 2,
+        join(dirs.LOG, 'bakta', '{sample}.out'),
+    threads: 1,
     params:
-        outdir=join(dirs.OUT,'prokka','{sample}'),
-        sam='{sample}'
+        outdir=join(dirs.OUT,'bakta','{sample}'),
+        sam='{sample}',
+        baktadb=config['baktadb']
     shell:
         """
-        prokka --centre X --compliant --force --cpus {threads} --outdir {params.outdir} --prefix {params.sam}_prokka {input.contigs} &> {log}
+        bakta --db {params.baktadb} --threads {threads} --output {params.outdir} --prefix {params.sam} {input.contigs} &> {log}
         """
 
+#rule clean_annotations:
+#    input:
+#        expand(join(dirs.OUT,'bakta','{sample}','{sample}.tsv'),sample=SAMPLES),
+#    output:
+#        join(dirs.OUT,'annotations','orf_annotations.tsv'),
+#    threads: 1,
+#    params:
+       
+        
 rule cluster_orfs:
     input:
-        expand(join(dirs.OUT,'prokka','{sample}','{sample}_prokka.faa'),sample=SAMPLES),
+        expand(join(dirs.OUT,'bakta','{sample}','{sample}.faa'),sample=SAMPLES),
     output:
-        join(dirs.OUT,'mmseqs','clusters_30perc_rep_seq.fasta'),
-        join(dirs.OUT,'mmseqs','clusters_30perc_cluster.tsv'),
+        join(dirs.OUT,'mmseqs','genecat_rep_seq.fasta'),
+        join(dirs.OUT,'mmseqs','genecat_cluster.tsv'),
     log:
         join(dirs.LOG,'mmseqs2','mmseqs.log'),
     threads: config['threads']
     params:
         outdir=join(dirs.OUT,'mmseqs'),
+        pid=config['genecat_cluster_percent_identity']
+        coverage=config['coverage']
+        mmseqs_runtype = config['mmseqs_command']
     shell:
         """
         cat {input} > all_seq_data.faa
-        mmseqs easy-cluster all_seq_data.faa {params.outdir}/clusters_30perc tmp --min-seq-id 0.3 --threads 10 -c 0.9 --cov-mode 1 &> {log}
+        mmseqs {params.mmseqs_runtype} all_seq_data.faa {params.outdir}/genecat tmp --min-seq-id {params.pid} --threads 10 -c {params.coverage} --cov-mode 1 &> {log}
         rm -rf tmp
         """
 
-rule annotate_orfs_by_alignment:
+rule filter_gene_catalog:
     input:
-        tsvfiles = expand(join(dirs.OUT,'prokka','{sample}','{sample}_prokka.tsv'),sample=SAMPLES)
+        genecat=join(dirs.OUT,'mmseqs','genecat_rep_seq.fasta'),
+        clusterfile=join(dirs.OUT,'mmseqs','genecat_cluster.tsv'),
     output:
-        join(dirs.OUT,'annotation','aligned_orfs.tsv'),
-        join(dirs.OUT,'annotation','prokka_annotation_data.tsv'),
-    log:
-        join(dirs.LOG,'annotation','annotation.log'),
-    threads: config['threads']
+        join(dirs.OUT,'mmseqs','clusters_rep_seq_filtered.fasta'),
+    threads: config['threads'],
     params:
-        infile=join(dirs.OUT,'mmseqs','clusters_30perc_rep_seq.fasta'),
-        outfile=join(dirs.OUT,'annotation','aligned_orfs.tsv'),
-        outdir=join(dirs.OUT,'annotation'),
-        annotationdb = config['annotation_diamond_db']
-    shell:
-        """
-        mkdir -p {params.outdir}
-        cat {input.tsvfiles} > {params.outdir}/prokka_annotation_data.tsv
-        diamond blastp -k 1 --db {params.annotationdb} --query {params.infile} --threads {threads} -o {params.outfile} &> {log}
-        """
-rule merge_annotation_data:
-    input:
-        alignmentanno = join(dirs.OUT,'annotation','aligned_orfs.tsv'),
-        prokkaanno = join(dirs.OUT,'annotation','prokka_annotation_data.tsv'),
-    output:
-        join(dirs.OUT,'annotation','merged_annotation_data.tsv'),
-    params:
-        annotationmaploc=config['uniref_annotation_mapping'],
-        clusterout=join(dirs.OUT,'mmseqs','clusters_30perc_cluster.tsv'),
-        mergedfile=join(dirs.OUT,'annotation','merged_annotation_data.tsv'),
+        outdir=join(dirs.OUT,'mmseqs'),
+        filterprev=config['min_prevalence'],
     run:
-        prokka = {}
-        with open(input.prokkaanno) as f:
+        clusters = []
+        with open('{input.clusterfile}') as f:
             for line in f:
-                line=line.rstrip().split('\t')
-                if line[1]=='CDS':
-                    gene=line[0]
-                    rest = line[3:7]
-                    prokka[gene]=rest
-        uniref = {}
-        with open(input.alignmentanno) as f:
-            for line in f:
-                line=line.rstrip().split('\t')
-                uniref[line[0]]=[line[1]]
-        uniref_annotation = {}
-        with open(params.annotationmaploc) as f:
-            for line in f:
-                line=line.rstrip().split(' ')
-                uniref_annotation[line[0]]=[' '.join(line[1:])]
-        conorfs = []
-        with open(params.clusterout) as f:
-            for line in f:
-                conorfs.append(line.rstrip().split('\t')[0])
-        conorfs = list(set(conorfs))
-        with open(params.mergedfile,'w') as w:
-            w.write('\t'.join(['gene_id','gene','ec_number','COG','product','uniref90_annotation_by_alignment']) + '\n')
-            for c in conorfs:
-                temp=[]
-                temp.append(c)
-                temp.extend(prokka[c])
-                try:
-                    temp.extend(uniref_annotation[uniref[c][0]])
-                except:
-                    temp.extend('No uniref90 annotation')
-                w.write('\t'.join(temp)+'\n')
+                clusters.append(line.rstrip().split('\t'))
+        congenes = [x[0] for x in clusters]
+        clustersize = pd.DataFrame.from_dict(Counter(congenes),orient='index')
+        clustersize['sample'] = [x.split('___')[1] for x in clustersize.index]
+        clustersize['contig'] = [x.split('___')[0] for x in clustersize.index]
+        clustersize['gene_number'] = [x.split('___')[2] for x in clustersize.index]
+        clustersize.to_csv('{params.outdir}/genecat_cluster_sizes.csv')
+        tokeep = clustersize[clustersize[0]>=int('{params.filterprev}')].index
+        seqs = SeqIO.to_dict(SeqIO.parse(str('{input.genecat}'), "fasta"))
+        with open('{params.outdir}/genecat_rep_seq_filtered.fasta','w') as w:
+            for i in tokeep:
+                w.write('>' + i + '\n')
+                w.wrote(str(seqs[i].seq) + '\n')
+
+    
+#rule index_gene_catalog:
+        
+#rule compute_relative_abundance:
+ #   input:
+ #       join(dirs.OUT,'mmseqs','clusters_30perc_rep_seq.fasta')
+  #  output:
+  #      join()
 
 rule make_config:
     input:
-        join(dirs.OUT,'mmseqs','clusters_30perc_rep_seq.fasta'),
-        join(dirs.OUT,'annotation','merged_annotation_data.tsv'),
+        join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.fasta'),
+   #     join(dirs.OUT,'annotations','orf_annotations.tsv'),
     output:
         join(dirs.OUT, 'samples.csv')
     run:
