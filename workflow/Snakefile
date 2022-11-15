@@ -55,14 +55,21 @@ rule call_orfs:
         bakta --db {params.baktadb} --threads {threads} --output {params.outdir} --prefix {params.sam} {input.contigs} &> {log}
         """
 
-#rule clean_annotations:
-#    input:
-#        expand(join(dirs.OUT,'bakta','{sample}','{sample}.tsv'),sample=SAMPLES),
-#    output:
-#        join(dirs.OUT,'annotations','orf_annotations.tsv'),
-#    threads: 1,
-#    params:
-       
+rule clean_annotations:
+    input:
+        expand(join(dirs.OUT,'bakta','{sample}','{sample}.tsv'),sample=SAMPLES),
+    output:
+        join(dirs.OUT,'annotations','orf_annotations.tsv'),
+    threads: 1,
+    params:
+        outdir=join(dirs.OUT,'annotations')
+    run:
+        os.system('mkdir -p %s'%params.outdir)
+        data = []
+        for i in input:
+            data.append(pd.read_csv(i,skiprows=2,sep='\t'))
+        data = pd.concat(data)
+        data.to_csv(params.outdir + '/orf_annotations.tsv')
         
 rule cluster_orfs:
     input:
@@ -130,7 +137,7 @@ rule filter_gene_catalog:
 rule make_config:
     input:
         join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.fasta'),
-   #     join(dirs.OUT,'annotations','orf_annotations.tsv'),
+        join(dirs.OUT,'annotations','orf_annotations.tsv'),
     output:
         join(dirs.OUT, 'samples.csv'),
     run:
