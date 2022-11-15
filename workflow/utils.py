@@ -10,15 +10,34 @@ from os.path import exists, join
 import pandas as pd
 
 
+
+
+import gzip
+import os
+from os import makedirs, symlink
+from os.path import abspath, basename, exists, join
+import pandas as pd
+import shutil
+
+
+def extract_from_gzip(p, out):
+    ap = abspath(p)
+    if open(ap, 'rb').read(2) == b'\x1f\x8b': # If the input is gzipped
+        with gzip.open(ap, 'rb') as f_in, open(out, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+    else: # Otherwise, symlink
+        symlink(ap, out)
+
+
 def ingest_samples(samples, tmp):
-    df = pd.read_csv(samples, header = 0, index_col = 0) 
+    df = pd.read_csv(samples, header = 0, index_col = 0) # name, ctgs, fwd, rev
     s = list(df.index)
     lst = df.values.tolist()
-    for f in os.listdir(tmp):
-        os.system("rm -rf " + join(tmp, f))
     for i,l in enumerate(lst):
-        symlink(l[0], join(tmp, s[i] + '_1.fastq.gz'))
-        symlink(l[1], join(tmp, s[i] + '_2.fastq.gz'))
+        if not exists(join(tmp, s[i] + '.fasta')):
+            symlink(abspath(l[0]), join(tmp, s[i] + '.fasta'))
+            extract_from_gzip(abspath(l[1]), join(tmp, s[i] + '_1.fastq'))
+            extract_from_gzip(abspath(l[2]), join(tmp, s[i] + '_2.fastq'))
     return s
 
 class Workflow_Dirs:
@@ -28,7 +47,7 @@ class Workflow_Dirs:
     LOG = ''
 
     def __init__(self, work_dir, module):
-        self.OUT = join(work_dir, "enzymetrics_protein_catalog")
+        self.OUT = join(work_dir, "module")
         self.TMP = join(work_dir, 'tmp') 
         self.LOG = join(work_dir, 'logs') 
         if not exists(self.OUT):
