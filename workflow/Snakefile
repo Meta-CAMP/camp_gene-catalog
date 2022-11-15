@@ -106,10 +106,10 @@ rule filter_gene_catalog:
         congenes = [x[0] for x in clusters]
         clustersize = pd.DataFrame.from_dict(Counter(congenes),orient='index')
         clustersize['sample'] = [x.split('_')[0] for x in clustersize.index]
-        clustersize.to_csv('{params.outdir}/genecat_cluster_sizes.csv')
-        tokeep = clustersize[clustersize[0]>=int('{params.filterprev}')].index
+        clustersize.to_csv(params.outdir/genecat_cluster_sizes.csv')
+        tokeep = clustersize[clustersize[0]>=int(params.filterprev)].index
         seqs = SeqIO.to_dict(SeqIO.parse(str(input.genecat), "fasta"))
-        with open('{params.outdir}/genecat_rep_seq_filtered.fasta','w') as w:
+        with open(params.outdir+'/genecat_rep_seq_filtered.fasta','w') as w:
             for i in tokeep:
                 w.write('>' + i + '\n')
                 w.wrote(str(seqs[i].seq) + '\n')
