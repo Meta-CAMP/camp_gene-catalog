@@ -76,9 +76,9 @@ rule cluster_orfs:
         mem_mb = config['cluster_orfs_mem_mb'],
     params:
         outdir=join(dirs.OUT,'mmseqs'),
-        pid=config['genecat_cluster_percent_identity']
-        coverage=config['coverage']
-        mmseqs_runtype = config['mmseqs_command']
+        pid=config['genecat_cluster_percent_identity'],
+        coverage=config['coverage'],
+        mmseqs_runtype = config['mmseqs_command'],
     shell:
         """
         cat {input} > all_seq_data.faa
@@ -133,7 +133,7 @@ rule make_config:
         join(dirs.OUT,'mmseqs','genecat_rep_seq_filtered.fasta'),
    #     join(dirs.OUT,'annotations','orf_annotations.tsv'),
     output:
-        join(dirs.OUT, 'samples.csv')
+        join(dirs.OUT, 'samples.csv'),
     run:
         out = []
         for i in input:
