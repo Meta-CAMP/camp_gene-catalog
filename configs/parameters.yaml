@@ -1,19 +1,15 @@
 #'''Parameters config.'''#
 
 
-# --- general --- #
+# --- call_orfs --- #
 
-threads: 16
-metaspades_maxmem: 128
+baktadb: ~/bin/databases/baktadb
 
-# --- host_read_removal --- #
+# --- cluster_orfs --- #
 
-host_removal_reference_database: databases/GRCh38_noalt_as
+mmseqs_command: easy-cluster # choose easy-cluster or easy-linclust for larger gene catalogs
+genecat_cluster_percent_identity: 0.3
+coverage: 0.9
 
-# --- adapter removal --- #
-adapters: databases/adapters.fa
-
-# --- annotation --- #
-
-annotation_diamond_db: databases/uniref90.dmnd 
-uniref_annotation_mapping: databases/uniref_90_annotation_mapping
+# --- filter_gene_catalog --- #
+min_gene_prevalence: 1
