@@ -12,7 +12,7 @@ Approach
 Installation
 ------------
 
-1. Clone repo from `Github tutorial <https://github.com/MetaSUB-CAMP/camp_gene-catalog>`_.
+1. Clone repo from `Github tutorial <https://github.com/MetaSUB-CAMP/camp_gene-catalog>`.
 
 2. Set up the conda environment using ``configs/conda/gene-catalog.yaml``. 
 
@@ -21,8 +21,8 @@ Installation
 3. Make sure the installed pipeline works correctly. ``pytest`` only generates temporary outputs so no files should be created.
 ```
 cd camp_short-read-quality-control
-conda env create -f configs/conda/short-read-quality-control.yaml
-conda activate short-read-quality-control
+conda env create -f configs/conda/gene-catalog.yaml
+conda activate gene-catalog
 pytest .tests/unit/
 ```    
 
