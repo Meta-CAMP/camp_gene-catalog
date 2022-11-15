@@ -28,7 +28,7 @@ rule all:
 
 rule call_orfs:
     input:
-        contigs=join(dirs.OUT,'assembled','{sample}','contigs.fasta'),
+        contigs=join(dirs.OUT,'assembled','{sample}','{sample}.fasta'),
     output:
         join(dirs.OUT,'bakta','{sample}','{sample}.faa'),
         join(dirs.OUT,'bakta','{sample}','{sample}.hypotheticals.tsv'),
