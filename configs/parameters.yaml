@@ -1,18 +1,25 @@
 #'''Parameters config.'''#
 
 
+ext:
+
+
 # --- call_orfs --- #
 
-baktadb: ~/bin/databases/baktadb
+bakta_db: 
+
 
 # --- cluster_orfs --- #
 
-mmseqs_command: easy-cluster # choose easy-cluster or easy-linclust for larger gene catalogs
-genecat_cluster_percent_identity: 0.3
-coverage: 0.9
+mmseqs_mode: easy-cluster # choose easy-cluster or easy-linclust for larger gene catalogs
+cluster_percent_identity: 0.3
+min_cluster_coverage: 0.9
+
 
 # --- filter_gene_catalog --- #
 min_gene_prevalence: 1
 
+
 # --- run_alignments --- #
+
 diamond_blocksize: 6

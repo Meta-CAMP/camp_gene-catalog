@@ -1,0 +1,33 @@
+#'''Command-line usage resource config.'''#
+
+# --- call_orfs --- #
+
+call_orfs_threads: 4
+call_orfs_mem_mb: 40000
+
+
+# --- cluster_orfs --- #
+
+cluster_orfs_threads: 24
+cluster_orfs_mem_mb: 256000
+
+
+# --- filter_gene_catalog --- #
+
+filter_gene_catalog_threads: 1
+filter_gene_catalog_mem_mb: 40000
+
+
+# --- index_gene_catalog --- #
+
+index_gene_catalog_threads: 24
+index_gene_catalog_mem_mb: 256000
+
+# --- run_alignments --- #
+
+run_alignments_threads: 4
+run_alignments_mem_mb: 256000
+
+# --- compute_relative_abundances --- #
+
+compute_relative_abundances_mem_mb: 256000
