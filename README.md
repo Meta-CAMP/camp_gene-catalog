@@ -29,8 +29,8 @@ conda activate gene-catalog
 
 3. After activating the conda environment, download the Bakta databases to a directory of your choosing. Make sure you update the `parameters.yaml` file with its location. Use absolute (not relative) paths when downloading the Bakta databases.
 ```Bash
-bakta_db download --output /path/to/bakta/db
-amrfinder_update --database /path/to/bakta/db/amrfinderplus-db
+bakta_db download --output /path/to/bakta_db
+amrfinder_update --database /path/to/bakta_db/amrfinderplus-db
 ```
 
 4. Update the parameters `ext` and `bakta_db` in `test_data/parameters.yaml`.

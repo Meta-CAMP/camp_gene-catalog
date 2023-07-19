@@ -1,16 +1,11 @@
 '''Workflow for the CAMP gene catalog module.'''
 
 
-from Bio import SeqIO
-from collections import Counter
-from functools import reduce
-from os import makedirs
-
 from contextlib import redirect_stderr
 import os
 from os.path import abspath, basename, dirname, join
 import pandas as pd
-from shutil import copy
+import shutil
 from utils import Workflow_Dirs, ingest_samples
 
 # Load and/or make the working directory structure
@@ -32,10 +27,10 @@ dirs_scr = join(dirs_ext, 'scripts')
 rule all:
     input:
         join(dirs.OUT, 'final_reports', 'orf_annotations.tsv'),
-        join(dirs.OUT, 'final_reports', 'orf_cluster_sizes.csv')
+        join(dirs.OUT, 'final_reports', 'orf_cluster_sizes.csv'),
         join(dirs.OUT, 'final_reports', 'orf_filt_seq.fasta'),
         join(dirs.OUT, 'final_reports', 'orf_read_cts.tsv'),
-        join(dirs.OUT, 'final_reports', 'orf_rel_abund.tsv'),
+        join(dirs.OUT, 'final_reports', 'orf_rel_abund.tsv')
 
 
 # --- Workflow steps --- #
@@ -43,22 +38,24 @@ rule all:
 
 rule call_orfs:
     input:
-        ctg = join(dirs.TMP, '{sample}.fasta'),
+        join(dirs.TMP, '{sample}.fasta'),
     output:
         join(dirs.OUT,'0_bakta','{sample}','{sample}.tsv'),
         join(dirs.OUT,'0_bakta','{sample}','{sample}.faa'),
     log:
         join(dirs.LOG, 'bakta', '{sample}.out'),
-    threads: config['bakta_threads'],
+    conda:
+        join(config['env_yamls'], 'annotations.yaml'),           
+    threads: config['call_orfs_threads'],
     resources:
-        mem_mb = config['bakta_mem_mb'],
+        mem_mb = config['call_orfs_mem_mb'],
     params:
         out_dir = join(dirs.OUT, '0_bakta', '{sample}'),
         sample = '{sample}',
         bakta_db = config['bakta_db']
     shell:
         """
-        bakta --db {params.bakta_db} --threads {threads} --output {params.out_dir} --prefix {params.sample} {input.ctg} > {log} 2>&1
+        bakta --force --db {params.bakta_db} --threads {threads} --output {params.out_dir} --prefix {params.sample} {input} > {log} 2>&1
         """
 
 
@@ -67,14 +64,12 @@ rule merge_sample_orfs:
         expand(join(dirs.OUT, '0_bakta','{sample}','{sample}.tsv'), sample = SAMPLES),
     output:
         join(dirs.OUT,'0_bakta', 'orf_annotations.tsv'),
-    params:
-        out_dir = join(dirs.OUT, '0_bakta')
     run:
         data = []
         for i in input:
-            data.append(pd.read_csv(i, skiprows = 2,sep = '\t'))
+            data.append(pd.read_csv(str(i), skiprows = 2,sep = '\t'))
         data = pd.concat(data)
-        data.to_csv(join(params.out_dir, 'orf_annotations.tsv'))
+        data.to_csv(str(output))
         
 
 rule merge_orf_seqs:
@@ -94,11 +89,13 @@ rule cluster_orfs:
     output:
         join(dirs.OUT, '1_mmseqs','rep_seq.fasta'),
         join(dirs.OUT, '1_mmseqs','cluster.tsv'),
+    conda:
+        join(config['env_yamls'], 'annotations.yaml'),           
     log:
         join(dirs.LOG, 'mmseqs2', 'std.out'),
-    threads: config['mmseqs_threads'],
+    threads: config['cluster_orfs_threads'],
     resources:
-        mem_mb = config['mmseqs_mem_mb'],
+        mem_mb = config['cluster_orfs_mem_mb'],
     params:
         out_dir = join(dirs.OUT, '1_mmseqs'),
         pid = config['cluster_percent_identity'],
@@ -116,7 +113,7 @@ rule filter_gene_catalog:
         seq = join(dirs.OUT, '1_mmseqs','rep_seq.fasta'),
         clst = join(dirs.OUT, '1_mmseqs','cluster.tsv'),
     output:
-        join(dirs.OUT, '1_mmseqs', 'orf_cluster_sizes.csv')
+        join(dirs.OUT, '1_mmseqs', 'orf_cluster_sizes.csv'),
         join(dirs.OUT, '1_mmseqs', 'orf_filt_seq.fasta'),
     params:
         filter_script = join(dirs_scr, 'filter_gene_catalog.py'),
@@ -133,12 +130,15 @@ rule index_gene_catalog:
         join(dirs.OUT, '1_mmseqs', 'orf_filt_seq.fasta'),
     output:
         join(dirs.OUT, '1_mmseqs','orf_filt_seq.dmnd'),
+    conda:
+        join(config['env_yamls'], 'annotations.yaml'),           
     resources:
-        mem_mb = config['diamond_mem_mb'],
+        mem_mb = config['index_gene_catalog_mem_mb'],
     shell:
         """
         diamond makedb --db {output} --in {input} 
         """
+
 
 rule concat_fastqs:
     input:
@@ -158,11 +158,13 @@ rule run_alignments:
         idx = join(dirs.OUT, '1_mmseqs','orf_filt_seq.dmnd'),
     output:
         join(dirs.TMP, '2_diamond','{sample}.tsv'),
+    conda:
+        join(config['env_yamls'], 'annotations.yaml'),           
     log:
         join(dirs.LOG,'diamond','{sample}.log'),
-    threads: config['diamond_threads'],
+    threads: config['run_alignments_threads'],
     resources:
-        mem_mb = config['diamond_mem_mb'],
+        mem_mb = config['run_alignments_mem_mb'],
     params:
         tmp_out = join(dirs.TMP, '2_diamond','{sample}_tmp.tsv'),
         blocksize = config['diamond_blocksize']
@@ -175,7 +177,7 @@ rule run_alignments:
 
 rule compute_relative_abundances:
     input:
-        ann = join(dirs.OUT,'0_bakta','{sample}','{sample}.tsv'),
+        ann = join(dirs.OUT,'0_bakta', 'orf_annotations.tsv'),
         genes = expand(join(dirs.TMP, '2_diamond','{sample}.tsv'), sample = SAMPLES)
     output:
         join(dirs.OUT,'2_diamond','orf_read_cts.tsv'),
@@ -192,13 +194,13 @@ rule compute_relative_abundances:
 rule make_config:
     input:
         join(dirs.OUT, '0_bakta', 'orf_annotations.tsv'),
-        join(dirs.OUT, '1_mmseqs', 'orf_cluster_sizes.csv')
+        join(dirs.OUT, '1_mmseqs', 'orf_cluster_sizes.csv'),
         join(dirs.OUT, '1_mmseqs', 'orf_filt_seq.fasta'),
         join(dirs.OUT, '2_diamond','orf_read_cts.tsv'),
         join(dirs.OUT, '2_diamond','orf_rel_abund.tsv'),
     output:
         join(dirs.OUT, 'final_reports', 'orf_annotations.tsv'),
-        join(dirs.OUT, 'final_reports', 'orf_cluster_sizes.csv')
+        join(dirs.OUT, 'final_reports', 'orf_cluster_sizes.csv'),
         join(dirs.OUT, 'final_reports', 'orf_filt_seq.fasta'),
         join(dirs.OUT, 'final_reports', 'orf_read_cts.tsv'),
         join(dirs.OUT, 'final_reports', 'orf_rel_abund.tsv'),

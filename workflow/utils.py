@@ -50,14 +50,14 @@ class Workflow_Dirs:
         self.LOG = join(work_dir, 'logs') 
         # Add custom subdirectories to organize intermediate files
         check_make(self.OUT)
-        out_dirs = ['final_reports']
+        out_dirs = ['0_bakta', '1_mmseqs', '2_diamond', 'final_reports']
         for d in out_dirs: 
             check_make(join(self.OUT, d))
         # Add a subdirectory for symlinked-in input files
         check_make(self.TMP)
         # Add custom subdirectories to organize rule logs
         check_make(self.LOG)
-        log_dirs = []
+        log_dirs = ['bakta', 'mmseqs', 'diamond']
         for d in log_dirs: 
             check_make(join(self.LOG, d))
 
