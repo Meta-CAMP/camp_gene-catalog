@@ -67,9 +67,9 @@ rule merge_sample_orfs:
     run:
         data = []
         for i in input:
-            data.append(pd.read_csv(str(i), skiprows = 2,sep = '\t'))
+            data.append(pd.read_csv(str(i), header = 5, index_col = None,sep = '\t'))
         data = pd.concat(data)
-        data.to_csv(str(output))
+        data.to_csv(str(output), sep = '\t')
         
 
 rule merge_orf_seqs:
@@ -87,8 +87,8 @@ rule cluster_orfs:
     input:
         join(dirs.OUT,'0_bakta', 'orf_annotations.faa'),
     output:
-        join(dirs.OUT, '1_mmseqs','rep_seq.fasta'),
-        join(dirs.OUT, '1_mmseqs','cluster.tsv'),
+        join(dirs.OUT, '1_mmseqs','merged_rep_seq.fasta'),
+        join(dirs.OUT, '1_mmseqs','merged_cluster.tsv'),
     conda:
         join(config['env_yamls'], 'annotations.yaml'),           
     log:
@@ -110,11 +110,11 @@ rule cluster_orfs:
 
 rule filter_gene_catalog:
     input:
-        seq = join(dirs.OUT, '1_mmseqs','rep_seq.fasta'),
-        clst = join(dirs.OUT, '1_mmseqs','cluster.tsv'),
+        seq = join(dirs.OUT, '1_mmseqs','merged_rep_seq.fasta'),
+        clst = join(dirs.OUT, '1_mmseqs','merged_cluster.tsv'),
     output:
-        join(dirs.OUT, '1_mmseqs', 'orf_cluster_sizes.csv'),
-        join(dirs.OUT, '1_mmseqs', 'orf_filt_seq.fasta'),
+        join(dirs.OUT, '1_mmseqs', 'merged_cluster_sizes.csv'),
+        join(dirs.OUT, '1_mmseqs', 'merged_filt_seq.fasta'),
     params:
         filter_script = join(dirs_scr, 'filter_gene_catalog.py'),
         out_dir = join(dirs.OUT, '1_mmseqs'),
@@ -127,9 +127,9 @@ rule filter_gene_catalog:
     
 rule index_gene_catalog:
     input:
-        join(dirs.OUT, '1_mmseqs', 'orf_filt_seq.fasta'),
+        join(dirs.OUT, '1_mmseqs', 'merged_filt_seq.fasta'),
     output:
-        join(dirs.OUT, '1_mmseqs','orf_filt_seq.dmnd'),
+        join(dirs.OUT, '1_mmseqs','merged_filt_seq.dmnd'),
     conda:
         join(config['env_yamls'], 'annotations.yaml'),           
     resources:
@@ -145,7 +145,7 @@ rule concat_fastqs:
         fwd = join(dirs.TMP, '{sample}_1.fastq'),
         rev = join(dirs.TMP, '{sample}_2.fastq'),
     output:
-        join(dirs.TMP, '{sample}.fastq'),
+        join(dirs.OUT, '1_mmseqs','{sample}.fastq'),
     shell:
         """
         cat {input.fwd} {input.rev} > {output}
@@ -154,10 +154,10 @@ rule concat_fastqs:
     
 rule run_alignments:
     input:
-        fq = join(dirs.TMP, '{sample}.fastq'),
-        idx = join(dirs.OUT, '1_mmseqs','orf_filt_seq.dmnd'),
+        fq = join(dirs.OUT, '1_mmseqs','{sample}.fastq'),
+        idx = join(dirs.OUT, '1_mmseqs','merged_filt_seq.dmnd'),
     output:
-        join(dirs.TMP, '2_diamond','{sample}.tsv'),
+        join(dirs.OUT, '2_diamond','{sample}.tsv'),
     conda:
         join(config['env_yamls'], 'annotations.yaml'),           
     log:
@@ -166,7 +166,7 @@ rule run_alignments:
     resources:
         mem_mb = config['run_alignments_mem_mb'],
     params:
-        tmp_out = join(dirs.TMP, '2_diamond','{sample}_tmp.tsv'),
+        tmp_out = join(dirs.OUT, '2_diamond','{sample}_tmp.tsv'),
         blocksize = config['diamond_blocksize']
     shell:
         """
@@ -178,10 +178,10 @@ rule run_alignments:
 rule compute_relative_abundances:
     input:
         ann = join(dirs.OUT,'0_bakta', 'orf_annotations.tsv'),
-        genes = expand(join(dirs.TMP, '2_diamond','{sample}.tsv'), sample = SAMPLES)
+        genes = expand(join(dirs.OUT, '2_diamond','{sample}.tsv'), sample = SAMPLES)
     output:
-        join(dirs.OUT,'2_diamond','orf_read_cts.tsv'),
-        join(dirs.OUT,'2_diamond','orf_rel_abund.tsv'),
+        join(dirs.OUT,'2_diamond','merged_read_cts.tsv'),
+        join(dirs.OUT,'2_diamond','merged_rel_abund.tsv'),
     params:
         rel_abund_script = join(dirs_scr, 'compute_relative_abundances.py'),
         out_dir = join(dirs.OUT, '2_diamond'),
@@ -194,10 +194,10 @@ rule compute_relative_abundances:
 rule make_config:
     input:
         join(dirs.OUT, '0_bakta', 'orf_annotations.tsv'),
-        join(dirs.OUT, '1_mmseqs', 'orf_cluster_sizes.csv'),
-        join(dirs.OUT, '1_mmseqs', 'orf_filt_seq.fasta'),
-        join(dirs.OUT, '2_diamond','orf_read_cts.tsv'),
-        join(dirs.OUT, '2_diamond','orf_rel_abund.tsv'),
+        join(dirs.OUT, '1_mmseqs', 'merged_cluster_sizes.csv'),
+        join(dirs.OUT, '1_mmseqs', 'merged_filt_seq.fasta'),
+        join(dirs.OUT, '2_diamond','merged_read_cts.tsv'),
+        join(dirs.OUT, '2_diamond','merged_rel_abund.tsv'),
     output:
         join(dirs.OUT, 'final_reports', 'orf_annotations.tsv'),
         join(dirs.OUT, 'final_reports', 'orf_cluster_sizes.csv'),
@@ -207,7 +207,7 @@ rule make_config:
     params:
         out_dir = join(dirs.OUT, 'final_reports'),
     run:
-        for i in input: 
-            shutil.copy(str(i), join(params.out_dir, basename(i)))
+        for i in list(zip(input, output)):
+            shutil.copy(str(i[0]), str(i[1]))
 
 

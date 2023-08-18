@@ -1,6 +1,7 @@
 import argparse
 from os.path import abspath, basename, join
 import pandas as pd
+from functools import reduce
 
 
 def main(args):         

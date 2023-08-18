@@ -63,12 +63,17 @@ class Workflow_Dirs:
 
 
 def cleanup_files(work_dir, df):
-    pass
-    # smps = list(df.index)
-    # for d in dirs.OUT:
-    #     for s in smps:
-    #         os.remove(join(work_dir, '{{ cookiecutter.module_slug }}', d, file_to_remove))
-    #         os.remove(join(work_dir, '{{ cookiecutter.module_slug }}', d, file_to_remove))
+    smps = list(df.index)
+    for s in smps:
+        os.remove(join(work_dir, 'gene_catalog', '0_bakta', s, s + '.json'))
+        os.remove(join(work_dir, 'gene_catalog', '0_bakta', s, s + '.embl'))
+        os.remove(join(work_dir, 'gene_catalog', '0_bakta', s, s + '.gbff'))
+        os.remove(join(work_dir, 'gene_catalog', '0_bakta', s, s + '.gff3'))
+        os.remove(join(work_dir, 'gene_catalog', '0_bakta', s, s + '.fna'))
+        os.remove(join(work_dir, 'gene_catalog', '0_bakta', s, s + '.ffn'))
+        os.remove(join(work_dir, 'gene_catalog', '0_bakta', s, s + '.svg'))
+        os.remove(join(work_dir, 'gene_catalog', '1_mmseqs', s + '.fastq'))
+        os.remove(join(work_dir, 'gene_catalog', '2_diamond', s + '_tmp.tsv'))
 
             
 def print_cmds(log):

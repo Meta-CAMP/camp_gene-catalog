@@ -1,0 +1,524 @@
+Create directory /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp
+easy-cluster /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/0_bakta/orf_annotations.faa /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/merged /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp --min-seq-id 0.3 --threads 10 -c 0.9 --cov-mode 1 
+
+MMseqs Version:                     	14.7e284
+Substitution matrix                 	aa:blosum62.out,nucl:nucleotide.out
+Seed substitution matrix            	aa:VTML80.out,nucl:nucleotide.out
+Sensitivity                         	4
+k-mer length                        	0
+k-score                             	seq:2147483647,prof:2147483647
+Alphabet size                       	aa:21,nucl:5
+Max sequence length                 	65535
+Max results per query               	20
+Split database                      	0
+Split mode                          	2
+Split memory limit                  	0
+Coverage threshold                  	0.9
+Coverage mode                       	1
+Compositional bias                  	1
+Compositional bias                  	1
+Diagonal scoring                    	true
+Exact k-mer matching                	0
+Mask residues                       	1
+Mask residues probability           	0.9
+Mask lower case residues            	0
+Minimum diagonal score              	15
+Selected taxa                       	
+Include identical seq. id.          	false
+Spaced k-mers                       	1
+Preload mode                        	0
+Pseudo count a                      	substitution:1.100,context:1.400
+Pseudo count b                      	substitution:4.100,context:5.800
+Spaced k-mer pattern                	
+Local temporary path                	
+Threads                             	10
+Compressed                          	0
+Verbosity                           	3
+Add backtrace                       	false
+Alignment mode                      	3
+Alignment mode                      	0
+Allow wrapped scoring               	false
+E-value threshold                   	0.001
+Seq. id. threshold                  	0.3
+Min alignment length                	0
+Seq. id. mode                       	0
+Alternative alignments              	0
+Max reject                          	2147483647
+Max accept                          	2147483647
+Score bias                          	0
+Realign hits                        	false
+Realign score bias                  	-0.2
+Realign max seqs                    	2147483647
+Correlation score weight            	0
+Gap open cost                       	aa:11,nucl:5
+Gap extension cost                  	aa:1,nucl:2
+Zdrop                               	40
+Rescore mode                        	0
+Remove hits by seq. id. and coverage	false
+Sort results                        	0
+Cluster mode                        	0
+Max connected component depth       	1000
+Similarity type                     	2
+Single step clustering              	false
+Cascaded clustering steps           	3
+Cluster reassign                    	false
+Remove temporary files              	true
+Force restart with latest tmp       	false
+MPI runner                          	
+k-mers per sequence                 	21
+Scale k-mers per sequence           	aa:0.000,nucl:0.200
+Adjust k-mer length                 	false
+Shift hash                          	67
+Include only extendable             	false
+Skip repeating k-mers               	false
+Database type                       	0
+Shuffle input database              	true
+Createdb mode                       	1
+Write lookup file                   	0
+Offset of numeric ids               	0
+
+createdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/0_bakta/orf_annotations.faa /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input --dbtype 0 --shuffle 1 --createdb-mode 1 --write-lookup 0 --id-offset 0 --compressed 0 -v 3 
+
+Shuffle database cannot be combined with --createdb-mode 0
+We recompute with --shuffle 0
+Converting sequences
+[=
+Time for merging to input_h: 0h 0m 0s 9ms
+Time for merging to input: 0h 0m 0s 55ms
+Database type: Aminoacid
+Time for processing: 0h 0m 0s 137ms
+Create directory /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp
+cluster /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp --max-seqs 20 -c 0.9 --cov-mode 1 --spaced-kmer-mode 1 --threads 10 --alignment-mode 3 -e 0.001 --min-seq-id 0.3 --remove-tmp-files 1 
+
+Set cluster sensitivity to -s 5.000000
+Set cluster mode GREEDY MEM
+Set cluster iterations to 3
+linclust /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust --cluster-mode 3 --max-iterations 1000 --similarity-type 2 --threads 10 --compressed 0 -v 3 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' -a 0 --alignment-mode 3 --alignment-output-mode 0 --wrapped-scoring 0 -e 0.001 --min-seq-id 0.3 --min-aln-len 0 --seq-id-mode 0 --alt-ali 0 -c 0.9 --cov-mode 1 --max-seq-len 65535 --comp-bias-corr 1 --comp-bias-corr-scale 1 --max-rejected 2147483647 --max-accept 2147483647 --add-self-matches 0 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --score-bias 0 --realign 0 --realign-score-bias -0.2 --realign-max-seqs 2147483647 --corr-score-weight 0 --gap-open aa:11,nucl:5 --gap-extend aa:1,nucl:2 --zdrop 40 --alph-size aa:13,nucl:5 --kmer-per-seq 21 --spaced-kmer-mode 1 --kmer-per-seq-scale aa:0.000,nucl:0.200 --adjust-kmer-len 0 --mask 0 --mask-prob 0.9 --mask-lower-case 0 -k 0 --hash-shift 67 --split-memory-limit 0 --include-only-extendable 0 --ignore-multi-kmer 0 --rescore-mode 0 --filter-hits 0 --sort-results 0 --remove-tmp-files 1 --force-reuse 0 
+
+kmermatcher /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' --alph-size aa:13,nucl:5 --min-seq-id 0.3 --kmer-per-seq 21 --spaced-kmer-mode 1 --kmer-per-seq-scale aa:0.000,nucl:0.200 --adjust-kmer-len 0 --mask 0 --mask-prob 0.9 --mask-lower-case 0 --cov-mode 1 -k 0 -c 0.9 --max-seq-len 65535 --hash-shift 67 --split-memory-limit 0 --include-only-extendable 0 --ignore-multi-kmer 0 --threads 10 --compressed 0 -v 3 
+
+kmermatcher /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' --alph-size aa:13,nucl:5 --min-seq-id 0.3 --kmer-per-seq 21 --spaced-kmer-mode 1 --kmer-per-seq-scale aa:0.000,nucl:0.200 --adjust-kmer-len 0 --mask 0 --mask-prob 0.9 --mask-lower-case 0 --cov-mode 1 -k 0 -c 0.9 --max-seq-len 65535 --hash-shift 67 --split-memory-limit 0 --include-only-extendable 0 --ignore-multi-kmer 0 --threads 10 --compressed 0 -v 3 
+
+Database size: 15807 type: Aminoacid
+Reduced amino acid alphabet: (A S T) (C) (D B N) (E Q Z) (F Y) (G) (H) (I V) (K R) (L J M) (P) (W) (X) 
+
+Generate k-mers list for 1 split
+[=================================================================] 15.81K 0s 14ms
+Sort kmer 0h 0m 0s 5ms
+Sort by rep. sequence 0h 0m 0s 0ms
+Time for fill: 0h 0m 0s 3ms
+Time for merging to pref: 0h 0m 0s 11ms
+Time for processing: 0h 0m 0s 82ms
+rescorediagonal /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_rescore1 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' --rescore-mode 0 --wrapped-scoring 0 --filter-hits 0 -e 0.001 -c 0.9 -a 0 --cov-mode 1 --min-seq-id 0.5 --min-aln-len 0 --seq-id-mode 0 --add-self-matches 0 --sort-results 0 --db-load-mode 0 --threads 10 --compressed 0 -v 3 
+
+[=================================================================] 15.81K 0s 5ms
+Time for merging to pref_rescore1: 0h 0m 0s 58ms
+Time for processing: 0h 0m 0s 201ms
+clust /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_rescore1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pre_clust --cluster-mode 3 --max-iterations 1000 --similarity-type 2 --threads 10 --compressed 0 -v 3 
+
+Clustering mode: Greedy Low Mem
+Total time: 0h 0m 0s 5ms
+
+Size of the sequence database: 15807
+Size of the alignment database: 15807
+Number of clusters: 15226
+
+Writing results 0h 0m 0s 4ms
+Time for merging to pre_clust: 0h 0m 0s 6ms
+Time for processing: 0h 0m 0s 31ms
+createsubdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/order_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/input_step_redundancy -v 3 --subdb-mode 1 
+
+Time for merging to input_step_redundancy: 0h 0m 0s 8ms
+Time for processing: 0h 0m 0s 40ms
+createsubdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/order_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_filter1 -v 3 --subdb-mode 1 
+
+Time for merging to pref_filter1: 0h 0m 0s 6ms
+Time for processing: 0h 0m 0s 31ms
+filterdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_filter1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_filter2 --filter-file /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/order_redundancy --threads 10 --compressed 0 -v 3 
+
+Filtering using file(s)
+[=================================================================] 15.23K 0s 3ms
+Time for merging to pref_filter2: 0h 0m 0s 55ms
+Time for processing: 0h 0m 0s 211ms
+rescorediagonal /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_filter2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_rescore2 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' --rescore-mode 1 --wrapped-scoring 0 --filter-hits 1 -e 0.001 -c 0.9 -a 0 --cov-mode 1 --min-seq-id 0.3 --min-aln-len 0 --seq-id-mode 0 --add-self-matches 0 --sort-results 0 --db-load-mode 0 --threads 10 --compressed 0 -v 3 
+
+[=================================================================] 15.23K 0s 5ms
+Time for merging to pref_rescore2: 0h 0m 0s 73ms
+Time for processing: 0h 0m 0s 220ms
+align /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_rescore2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/aln --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' -a 0 --alignment-mode 3 --alignment-output-mode 0 --wrapped-scoring 0 -e 0.001 --min-seq-id 0.3 --min-aln-len 0 --seq-id-mode 0 --alt-ali 0 -c 0.9 --cov-mode 1 --max-seq-len 65535 --comp-bias-corr 1 --comp-bias-corr-scale 1 --max-rejected 2147483647 --max-accept 2147483647 --add-self-matches 0 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --score-bias 0 --realign 0 --realign-score-bias -0.2 --realign-max-seqs 2147483647 --corr-score-weight 0 --gap-open aa:11,nucl:5 --gap-extend aa:1,nucl:2 --zdrop 40 --threads 10 --compressed 0 -v 3 
+
+Compute score, coverage and sequence identity
+Query database size: 15226 type: Aminoacid
+Target database size: 15226 type: Aminoacid
+Calculation of alignments
+[=================================================================] 15.23K 0s 119ms
+Time for merging to aln: 0h 0m 0s 62ms
+16441 alignments calculated
+15979 sequence pairs passed the thresholds (0.971900 of overall calculated)
+1.049455 hits per query sequence
+Time for processing: 0h 0m 0s 301ms
+clust /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/aln /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/clust --cluster-mode 3 --max-iterations 1000 --similarity-type 2 --threads 10 --compressed 0 -v 3 
+
+Clustering mode: Greedy Low Mem
+Total time: 0h 0m 0s 5ms
+
+Size of the sequence database: 15226
+Size of the alignment database: 15226
+Number of clusters: 14569
+
+Writing results 0h 0m 0s 3ms
+Time for merging to clust: 0h 0m 0s 8ms
+Time for processing: 0h 0m 0s 45ms
+mergeclusters /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pre_clust /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/clust --threads 10 --compressed 0 -v 3 
+
+Clustering step 1
+[=================================================================] 15.23K 0s 2ms
+Clustering step 2
+[=================================================================] 14.57K 0s 9ms
+Write merged clustering
+[=================================================================] 15.81K 0s 116ms
+Time for merging to clu_redundancy: 0h 0m 0s 63ms
+Time for processing: 0h 0m 0s 287ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_filter1 -v 3 
+
+Time for processing: 0h 0m 0s 4ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref -v 3 
+
+Time for processing: 0h 0m 0s 6ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_rescore1 -v 3 
+
+Time for processing: 0h 0m 0s 16ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pre_clust -v 3 
+
+Time for processing: 0h 0m 0s 6ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/input_step_redundancy -v 3 
+
+Time for processing: 0h 0m 0s 6ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/input_step_redundancy_h -v 3 
+
+Time for processing: 0h 0m 0s 6ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_filter2 -v 3 
+
+Time for processing: 0h 0m 0s 19ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/pref_rescore2 -v 3 
+
+Time for processing: 0h 0m 0s 15ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/aln -v 3 
+
+Time for processing: 0h 0m 0s 14ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/linclust/14532267732210858162/clust -v 3 
+
+Time for processing: 0h 0m 0s 5ms
+createsubdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy -v 3 --subdb-mode 1 
+
+Time for merging to input_step_redundancy: 0h 0m 0s 27ms
+Time for processing: 0h 0m 0s 76ms
+prefilter /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step0 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' --seed-sub-mat 'aa:VTML80.out,nucl:nucleotide.out' -s 1 -k 0 --k-score seq:2147483647,prof:2147483647 --alph-size aa:21,nucl:5 --max-seq-len 65535 --max-seqs 20 --split 0 --split-mode 2 --split-memory-limit 0 -c 0.9 --cov-mode 1 --comp-bias-corr 0 --comp-bias-corr-scale 1 --diag-score 0 --exact-kmer-matching 0 --mask 1 --mask-prob 0.9 --mask-lower-case 0 --min-ungapped-score 0 --add-self-matches 0 --spaced-kmer-mode 1 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --threads 10 --compressed 0 -v 3 
+
+Query database size: 14569 type: Aminoacid
+Estimated memory consumption: 1009M
+Target database size: 14569 type: Aminoacid
+Index table k-mer threshold: 154 at k-mer size 6 
+Index table: counting k-mers
+[=================================================================] 14.57K 0s 75ms
+Index table: Masked residues: 19024
+Index table: fill
+[=================================================================] 14.57K 0s 42ms
+Index statistics
+Entries:          1586829
+DB size:          497 MB
+Avg k-mer size:   0.024794
+Top 10 k-mers
+    GPGGTL	45
+    GQQIAR	27
+    ARGAGF	19
+    LDMPDG	18
+    GPGGTT	17
+    NGGSMK	13
+    DLLDMP	13
+    GDLDDP	10
+    AGDYKP	10
+    LGDYKP	10
+Time for index table init: 0h 0m 0s 601ms
+Process prefiltering step 1 of 1
+
+k-mer similarity threshold: 154
+Starting prefiltering scores calculation (step 1 of 1)
+Query db start 1 to 14569
+Target db start 1 to 14569
+[=================================================================] 14.57K 0s 104ms
+
+1.699096 k-mers per position
+124 DB matches per sequence
+0 overflows
+0 queries produce too many hits (truncated result)
+1 sequences passed prefiltering per query sequence
+1 median result list length
+0 sequences with 0 size result lists
+Time for merging to pref_step0: 0h 0m 0s 69ms
+Time for processing: 0h 0m 1s 211ms
+align /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step0 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step0 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' -a 0 --alignment-mode 3 --alignment-output-mode 0 --wrapped-scoring 0 -e 0.001 --min-seq-id 0.3 --min-aln-len 0 --seq-id-mode 0 --alt-ali 0 -c 0.9 --cov-mode 1 --max-seq-len 65535 --comp-bias-corr 0 --comp-bias-corr-scale 1 --max-rejected 2147483647 --max-accept 2147483647 --add-self-matches 0 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --score-bias 0 --realign 0 --realign-score-bias -0.2 --realign-max-seqs 2147483647 --corr-score-weight 0 --gap-open aa:11,nucl:5 --gap-extend aa:1,nucl:2 --zdrop 40 --threads 10 --compressed 0 -v 3 
+
+Compute score, coverage and sequence identity
+Query database size: 14569 type: Aminoacid
+Target database size: 14569 type: Aminoacid
+Calculation of alignments
+[=================================================================] 14.57K 0s 177ms
+Time for merging to aln_step0: 0h 0m 0s 68ms
+20704 alignments calculated
+18080 sequence pairs passed the thresholds (0.873261 of overall calculated)
+1.240991 hits per query sequence
+Time for processing: 0h 0m 0s 360ms
+clust /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step0 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step0 --cluster-mode 3 --max-iterations 1000 --similarity-type 2 --threads 10 --compressed 0 -v 3 
+
+Clustering mode: Greedy Low Mem
+Total time: 0h 0m 0s 21ms
+
+Size of the sequence database: 14569
+Size of the alignment database: 14569
+Number of clusters: 13084
+
+Writing results 0h 0m 0s 3ms
+Time for merging to clu_step0: 0h 0m 0s 9ms
+Time for processing: 0h 0m 0s 83ms
+createsubdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step0 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1 -v 3 --subdb-mode 1 
+
+Time for merging to input_step1: 0h 0m 0s 10ms
+Time for processing: 0h 0m 0s 49ms
+prefilter /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step1 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' --seed-sub-mat 'aa:VTML80.out,nucl:nucleotide.out' -s 3 -k 0 --k-score seq:2147483647,prof:2147483647 --alph-size aa:21,nucl:5 --max-seq-len 65535 --max-seqs 20 --split 0 --split-mode 2 --split-memory-limit 0 -c 0.9 --cov-mode 1 --comp-bias-corr 1 --comp-bias-corr-scale 1 --diag-score 1 --exact-kmer-matching 0 --mask 1 --mask-prob 0.9 --mask-lower-case 0 --min-ungapped-score 15 --add-self-matches 0 --spaced-kmer-mode 1 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --threads 10 --compressed 0 -v 3 
+
+Query database size: 13084 type: Aminoacid
+Estimated memory consumption: 1005M
+Target database size: 13084 type: Aminoacid
+Index table k-mer threshold: 136 at k-mer size 6 
+Index table: counting k-mers
+[=================================================================] 13.08K 0s 82ms
+Index table: Masked residues: 18145
+Index table: fill
+[=================================================================] 13.08K 0s 73ms
+Index statistics
+Entries:          2881101
+DB size:          504 MB
+Avg k-mer size:   0.045017
+Top 10 k-mers
+    GPGGTL	35
+    GEGGVV	26
+    TNLLSI	21
+    ASEAGE	19
+    AAAEKG	16
+    EARGGK	16
+    SGQQAI	15
+    ALGSGK	15
+    GQQIAR	15
+    AIGSGK	14
+Time for index table init: 0h 0m 0s 607ms
+Process prefiltering step 1 of 1
+
+k-mer similarity threshold: 136
+Starting prefiltering scores calculation (step 1 of 1)
+Query db start 1 to 13084
+Target db start 1 to 13084
+[=================================================================] 13.08K 0s 490ms
+
+19.972708 k-mers per position
+377 DB matches per sequence
+0 overflows
+0 queries produce too many hits (truncated result)
+2 sequences passed prefiltering per query sequence
+2 median result list length
+0 sequences with 0 size result lists
+Time for merging to pref_step1: 0h 0m 0s 58ms
+Time for processing: 0h 0m 1s 559ms
+align /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step1 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' -a 0 --alignment-mode 3 --alignment-output-mode 0 --wrapped-scoring 0 -e 0.001 --min-seq-id 0.3 --min-aln-len 0 --seq-id-mode 0 --alt-ali 0 -c 0.9 --cov-mode 1 --max-seq-len 65535 --comp-bias-corr 1 --comp-bias-corr-scale 1 --max-rejected 2147483647 --max-accept 2147483647 --add-self-matches 0 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --score-bias 0 --realign 0 --realign-score-bias -0.2 --realign-max-seqs 2147483647 --corr-score-weight 0 --gap-open aa:11,nucl:5 --gap-extend aa:1,nucl:2 --zdrop 40 --threads 10 --compressed 0 -v 3 
+
+Compute score, coverage and sequence identity
+Query database size: 13084 type: Aminoacid
+Target database size: 13084 type: Aminoacid
+Calculation of alignments
+[=================================================================] 13.08K 0s 220ms
+Time for merging to aln_step1: 0h 0m 0s 59ms
+28126 alignments calculated
+15367 sequence pairs passed the thresholds (0.546363 of overall calculated)
+1.174488 hits per query sequence
+Time for processing: 0h 0m 0s 437ms
+clust /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step1 --cluster-mode 3 --max-iterations 1000 --similarity-type 2 --threads 10 --compressed 0 -v 3 
+
+Clustering mode: Greedy Low Mem
+Total time: 0h 0m 0s 6ms
+
+Size of the sequence database: 13084
+Size of the alignment database: 13084
+Number of clusters: 12105
+
+Writing results 0h 0m 0s 3ms
+Time for merging to clu_step1: 0h 0m 0s 8ms
+Time for processing: 0h 0m 0s 43ms
+createsubdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step2 -v 3 --subdb-mode 1 
+
+Time for merging to input_step2: 0h 0m 0s 23ms
+Time for processing: 0h 0m 0s 58ms
+prefilter /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step2 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' --seed-sub-mat 'aa:VTML80.out,nucl:nucleotide.out' -s 5 -k 0 --k-score seq:2147483647,prof:2147483647 --alph-size aa:21,nucl:5 --max-seq-len 65535 --max-seqs 20 --split 0 --split-mode 2 --split-memory-limit 0 -c 0.9 --cov-mode 1 --comp-bias-corr 1 --comp-bias-corr-scale 1 --diag-score 1 --exact-kmer-matching 0 --mask 1 --mask-prob 0.9 --mask-lower-case 0 --min-ungapped-score 15 --add-self-matches 0 --spaced-kmer-mode 1 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --threads 10 --compressed 0 -v 3 
+
+Query database size: 12105 type: Aminoacid
+Estimated memory consumption: 1003M
+Target database size: 12105 type: Aminoacid
+Index table k-mer threshold: 118 at k-mer size 6 
+Index table: counting k-mers
+[=================================================================] 12.10K 0s 76ms
+Index table: Masked residues: 17735
+Index table: fill
+[=================================================================] 12.10K 0s 71ms
+Index statistics
+Entries:          2802596
+DB size:          504 MB
+Avg k-mer size:   0.043791
+Top 10 k-mers
+    GPGGTL	25
+    GEGGVV	23
+    LNSERA	18
+    TNLLSI	18
+    LLETLD	14
+    ALAIAR	14
+    AAAEKG	13
+    FKIDGH	13
+    EARGGK	13
+    ALGSGK	12
+Time for index table init: 0h 0m 0s 590ms
+Process prefiltering step 1 of 1
+
+k-mer similarity threshold: 118
+Starting prefiltering scores calculation (step 1 of 1)
+Query db start 1 to 12105
+Target db start 1 to 12105
+[=================================================================] 12.10K 2s 74ms
+
+154.770493 k-mers per position
+1744 DB matches per sequence
+0 overflows
+0 queries produce too many hits (truncated result)
+11 sequences passed prefiltering per query sequence
+10 median result list length
+0 sequences with 0 size result lists
+Time for merging to pref_step2: 0h 0m 0s 73ms
+Time for processing: 0h 0m 3s 158ms
+align /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step2 --sub-mat 'aa:blosum62.out,nucl:nucleotide.out' -a 0 --alignment-mode 3 --alignment-output-mode 0 --wrapped-scoring 0 -e 0.001 --min-seq-id 0.3 --min-aln-len 0 --seq-id-mode 0 --alt-ali 0 -c 0.9 --cov-mode 1 --max-seq-len 65535 --comp-bias-corr 1 --comp-bias-corr-scale 1 --max-rejected 2147483647 --max-accept 2147483647 --add-self-matches 0 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --score-bias 0 --realign 0 --realign-score-bias -0.2 --realign-max-seqs 2147483647 --corr-score-weight 0 --gap-open aa:11,nucl:5 --gap-extend aa:1,nucl:2 --zdrop 40 --threads 10 --compressed 0 -v 3 
+
+Compute score, coverage and sequence identity
+Query database size: 12105 type: Aminoacid
+Target database size: 12105 type: Aminoacid
+Calculation of alignments
+[=================================================================] 12.10K 0s 302ms
+Time for merging to aln_step2: 0h 0m 0s 64ms
+76898 alignments calculated
+13109 sequence pairs passed the thresholds (0.170473 of overall calculated)
+1.082941 hits per query sequence
+Time for processing: 0h 0m 0s 532ms
+clust /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step2 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step2 --cluster-mode 3 --max-iterations 1000 --similarity-type 2 --threads 10 --compressed 0 -v 3 
+
+Clustering mode: Greedy Low Mem
+Total time: 0h 0m 0s 20ms
+
+Size of the sequence database: 12105
+Size of the alignment database: 12105
+Number of clusters: 11582
+
+Writing results 0h 0m 0s 3ms
+Time for merging to clu_step2: 0h 0m 0s 9ms
+Time for processing: 0h 0m 0s 49ms
+mergeclusters /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_redundancy /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step0 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step1 /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step2 --threads 10 --compressed 0 -v 3 
+
+Clustering step 1
+[=================================================================] 14.57K 0s 0ms
+Clustering step 2
+[=================================================================] 13.08K 0s 4ms
+Clustering step 3
+[=================================================================] 12.10K 0s 8ms
+Clustering step 4
+[=================================================================] 11.58K 0s 13ms
+Write merged clustering
+[=================================================================] 15.81K 0s 118ms
+Time for merging to clu: 0h 0m 0s 69ms
+Time for processing: 0h 0m 0s 238ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_redundancy -v 3 
+
+Time for processing: 0h 0m 0s 19ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy -v 3 
+
+Time for processing: 0h 0m 0s 6ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step_redundancy_h -v 3 
+
+Time for processing: 0h 0m 0s 3ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step0 -v 3 
+
+Time for processing: 0h 0m 0s 18ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step0 -v 3 
+
+Time for processing: 0h 0m 0s 21ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step0 -v 3 
+
+Time for processing: 0h 0m 0s 6ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step1 -v 3 
+
+Time for processing: 0h 0m 0s 22ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step1 -v 3 
+
+Time for processing: 0h 0m 0s 22ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step1 -v 3 
+
+Time for processing: 0h 0m 0s 5ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/pref_step2 -v 3 
+
+Time for processing: 0h 0m 0s 19ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/aln_step2 -v 3 
+
+Time for processing: 0h 0m 0s 16ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/clu_step2 -v 3 
+
+Time for processing: 0h 0m 0s 5ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1 -v 3 
+
+Time for processing: 0h 0m 0s 5ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step1_h -v 3 
+
+Time for processing: 0h 0m 0s 4ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step2 -v 3 
+
+Time for processing: 0h 0m 0s 6ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_tmp/12762054558429202195/input_step2_h -v 3 
+
+Time for processing: 0h 0m 0s 7ms
+createtsv /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/cluster.tsv --threads 10 -v 3 
+
+Time for merging to cluster.tsv: 0h 0m 0s 82ms
+Time for processing: 0h 0m 0s 327ms
+result2repseq /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_rep --db-load-mode 0 --compressed 0 --threads 10 -v 3 
+
+[=================================================================] 11.58K 0s 5ms
+Time for merging to clu_rep: 0h 0m 0s 93ms
+Time for processing: 0h 0m 0s 250ms
+result2flat /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_rep /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/rep_seq.fasta --use-fasta-header -v 3 
+
+Time for processing: 0h 0m 0s 36ms
+createseqfiledb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_seqs --threads 10 -v 3 
+
+[=================================================================] 11.58K 0s 4ms
+Time for merging to clu_seqs: 0h 0m 0s 69ms
+Time for processing: 0h 0m 0s 245ms
+result2flat /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_seqs /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/all_seqs.fasta -v 3 
+
+Time for processing: 0h 0m 0s 38ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input -v 3 
+
+Time for processing: 0h 0m 0s 7ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/input_h -v 3 
+
+Time for processing: 0h 0m 0s 6ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_seqs -v 3 
+
+Time for processing: 0h 0m 0s 24ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu_rep -v 3 
+
+Time for processing: 0h 0m 0s 9ms
+rmdb /home/lam4003/bin/camp_gene-catalog/test_out/gene_catalog/1_mmseqs/tmp/1756676970586469544/clu -v 3 
+
+Time for processing: 0h 0m 0s 19ms

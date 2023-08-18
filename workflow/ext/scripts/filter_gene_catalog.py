@@ -1,4 +1,5 @@
 import argparse
+from collections import Counter
 from os.path import abspath, basename, join
 import pandas as pd
 
@@ -11,7 +12,7 @@ def ingest_fasta(f_in):
         for l in fi:
             if '>' in l:
                 seqs[name] = seq
-                name = l[1:].strip()
+                name = l[1:].split()[0].strip()
                 seq = ''
             else:
                 seq += l.strip()
@@ -26,8 +27,8 @@ def main(args):
         for l in f:
             clusters.append(l.rstrip().split('\t'))
     congenes = [x[0] for x in clusters]
-    size_df = pd.DataFrame.from_dict(Counter(congenes),orient='index')
-    size_df['sample'] = [x.split('_')[0] for x in size_df.index]
+    size_df = pd.DataFrame.from_dict(Counter(congenes),orient='index', columns = ['cluster_size'])
+    # size_df['sample'] = [x.split('_')[0] for x in size_df.index]
     size_df.to_csv(join(args.out_dir, 'merged_cluster_sizes.csv'))
     clst_to_keep = size_df[size_df[0]>=int(args.min_prev)].index
     seqs = ingest_fasta(str(args.fasta))
