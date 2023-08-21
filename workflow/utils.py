@@ -23,7 +23,7 @@ def extract_from_gzip(ap, out):
 def ingest_samples(samples, tmp):
     df = pd.read_csv(samples, header = 0, index_col = 0) # name, ctgs, fwd, rev
     s = list(df.index)
-    lst = df.values.tolist()
+    lst = [str(l) for l in df.values.tolist()]
     for i,l in enumerate(lst):
         if not exists(join(tmp, s[i] + '.fasta')):
             symlink(abspath(l[0]), join(tmp, s[i] + '.fasta'))
