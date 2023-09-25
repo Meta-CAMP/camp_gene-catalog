@@ -1,6 +1,6 @@
 # CAMP Gene Catalog
 
-[![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) ![Version](https://img.shields.io/badge/version-0.3.1-brightgreen)
+[![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) ![Version](https://img.shields.io/badge/version-0.3.2-brightgreen)
 
 ## Overview
 
