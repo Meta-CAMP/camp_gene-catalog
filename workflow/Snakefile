@@ -142,10 +142,10 @@ rule index_gene_catalog:
 
 rule concat_fastqs:
     input:
-        fwd = join(dirs.TMP, '{sample}_1.fastq'),
-        rev = join(dirs.TMP, '{sample}_2.fastq'),
+        fwd = join(dirs.TMP, '{sample}_1.fastq.gz'),
+        rev = join(dirs.TMP, '{sample}_2.fastq.gz'),
     output:
-        join(dirs.OUT, '1_mmseqs','{sample}.fastq'),
+        join(dirs.OUT, '1_mmseqs','{sample}.fastq.gz'),
     shell:
         """
         cat {input.fwd} {input.rev} > {output}
@@ -154,7 +154,7 @@ rule concat_fastqs:
     
 rule run_alignments:
     input:
-        fq = join(dirs.OUT, '1_mmseqs','{sample}.fastq'),
+        fq = join(dirs.OUT, '1_mmseqs','{sample}.fastq.gz'),
         idx = join(dirs.OUT, '1_mmseqs','merged_filt_seq.dmnd'),
     output:
         join(dirs.OUT, '2_diamond','{sample}.tsv'),
