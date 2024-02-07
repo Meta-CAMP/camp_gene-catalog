@@ -1,16 +1,14 @@
-# CAMP Gene Catalog
+# Gene Catalog
 
-[![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) ![Version](https://img.shields.io/badge/version-0.3.3-brightgreen)
+[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.3.3-brightgreen)
+
+<!-- [![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) -->
 
 ## Overview
 
 This module is designed to function as both a standalone gene catalog pipeline as well as a component of the larger CAMP metagenome analysis pipeline. As such, it is both self-contained (ex. instructions included for the setup of a versioned environment, etc.), and seamlessly compatible with other CAMP modules (ex. ingests and spawns standardized input/output config files, etc.). 
 
 This module generates and functionally annotates a gene catalog from assembled contigs. It is both self-contained (ex. instructions included for the setup of a versioned environment, etc.), and compatible with other CAMP modules (ex. ingests and spawns standardized input/output config files, etc.). 
-
-## Approach
-
-<INSERT PIPELINE IMAGE>
 
 ## Installation
 
@@ -109,5 +107,4 @@ EOF
 
 - This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter>) as a simplified version of the [project template](https://github.com/audreyr/cookiecutter-pypackage>).
 - Free software: MIT
-- Documentation: https://camp-documentation.readthedocs.io/en/latest/gene-catalog.html
 
