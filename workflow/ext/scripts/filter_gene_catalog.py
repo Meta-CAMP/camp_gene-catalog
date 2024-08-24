@@ -30,7 +30,7 @@ def main(args):
     size_df = pd.DataFrame.from_dict(Counter(congenes),orient='index', columns = ['cluster_size'])
     # size_df['sample'] = [x.split('_')[0] for x in size_df.index]
     size_df.to_csv(join(args.out_dir, 'merged_cluster_sizes.csv'))
-    clst_to_keep = size_df[size_df[0]>=int(args.min_prev)].index
+    clst_to_keep = size_df[size_df['cluster_size']>=int(args.min_prev)].index
     seqs = ingest_fasta(str(args.fasta))
     with open(join(args.out_dir, 'merged_filt_seq.fasta'),'w') as fo:
         for i in clst_to_keep:

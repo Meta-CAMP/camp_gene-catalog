@@ -1,6 +1,6 @@
 # Gene Catalog
 
-[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.3.3-brightgreen)
+[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.3.4-brightgreen)
 
 <!-- [![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) -->
 
@@ -11,6 +11,9 @@ This module is designed to function as both a standalone gene catalog pipeline a
 This module generates and functionally annotates a gene catalog from assembled contigs. It is both self-contained (ex. instructions included for the setup of a versioned environment, etc.), and compatible with other CAMP modules (ex. ingests and spawns standardized input/output config files, etc.). 
 
 ## Installation
+
+> [!TIP]
+> All databases used in CAMP modules will also be available for download on Zenodo (link TBD).
 
 1. Clone repo from [Github](<https://github.com/MetaSUB-CAMP/camp_gene-catalog>).
 ```Bash
@@ -25,8 +28,17 @@ conda env create -f configs/conda/gene-catalog.yaml
 conda activate gene-catalog
 ```
 
-3. After activating the conda environment, download the Bakta databases to a directory of your choosing. Make sure you update the `parameters.yaml` file with its location. Use absolute (not relative) paths when downloading the Bakta databases.
+3. Download the database dependencies for Bakta and AMRFinder. The easiest way to do this is to install the Bakta/AMRFinder environment using `--dry_run` (see below for explanation) and then activating the Bakta/AMRFinder conda environment to use its database download command. Make sure you update the `parameters.yaml` file with its location. Use absolute (not relative) paths when downloading the Bakta databases.
 ```Bash
+python /path/to/camp_gene-catalog/workflow/gene-catalog.py --dry_run \
+    -d /home/lam4003/bin/camp_gene-catalog/test_out \
+    -s /home/lam4003/bin/camp_gene-catalog/test_data/samples.csv
+
+# In the directory /path/to/camp_gene-catalog/conda_envs/, find the environment ID that corresponds to Bakta and AMRFinder
+
+# Activate the conda environment that corresponds to CheckM2
+conda activate /path/to/camp_gene-catalog/conda_envs/bakta_env_id
+
 bakta_db download --output /path/to/bakta_db
 amrfinder_update --database /path/to/bakta_db/amrfinderplus-db
 ```
