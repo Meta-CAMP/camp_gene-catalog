@@ -1,6 +1,6 @@
 # Gene Catalog
 
-[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.3.4-brightgreen)
+[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.3.5-brightgreen)
 
 <!-- [![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) -->
 
@@ -21,7 +21,12 @@ git clone https://github.com/MetaSUB-CAMP/camp_gene-catalog
 ```
 
 2. Set up the conda environment using `configs/conda/gene-catalog.yaml`. 
+
+If you don't already have `conda` handy, we recommend installing `miniforge`, which is a minimal conda installer that, by default, installs packages from open-source community-driven channels such as `conda-forge`.
 ```Bash
+# If you don't already have conda on your system...
+# wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+
 # Create and activate conda environment 
 cd camp_gene-catalog
 conda env create -f configs/conda/gene-catalog.yaml
