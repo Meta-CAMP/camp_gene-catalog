@@ -1,6 +1,6 @@
 # Gene Catalog
 
-[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.3.5-brightgreen)
+[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.3.6-brightgreen)
 
 <!-- [![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) -->
 
@@ -15,9 +15,9 @@ This module generates and functionally annotates a gene catalog from assembled c
 > [!TIP]
 > All databases used in CAMP modules will also be available for download on Zenodo (link TBD).
 
-1. Clone repo from [Github](<https://github.com/MetaSUB-CAMP/camp_gene-catalog>).
+1. Clone repo from [Github](<https://github.com/Meta-CAMP/camp_gene-catalog>).
 ```Bash
-git clone https://github.com/MetaSUB-CAMP/camp_gene-catalog
+git clone https://github.com/Meta-CAMP/camp_gene-catalog
 ```
 
 2. Set up the conda environment using `configs/conda/gene-catalog.yaml`. 

@@ -2,4 +2,4 @@
 
 __author__ = 'Braden Tierney', 'Lauren Mak'
 __email__ = 'braden.tierney@gmail.com', 'laurenmak93@gmail.com'
-__version__ = 0.3.5
+__version__ = 0.3.6
