@@ -30,7 +30,7 @@ If you don't already have `conda` handy, we recommend installing `miniforge`, wh
 # Create and activate conda environment 
 cd camp_gene-catalog
 conda env create -f configs/conda/gene-catalog.yaml
-conda activate gene-catalog
+conda activate gene_catalog
 ```
 
 3. Download the database dependencies for Bakta and AMRFinder. The easiest way to do this is to install the Bakta/AMRFinder environment using `--dry_run` (see below for explanation) and then activating the Bakta/AMRFinder conda environment to use its database download command. Make sure you update the `parameters.yaml` file with its location. Use absolute (not relative) paths when downloading the Bakta databases.

@@ -44,8 +44,7 @@ rule call_orfs:
         join(dirs.OUT,'0_bakta','{sample}','{sample}.faa'),
     log:
         join(dirs.LOG, 'bakta', '{sample}.out'),
-    conda:
-        join(config['env_yamls'], 'annotations.yaml'),           
+    conda: "bakta",           
     threads: config['call_orfs_threads'],
     resources:
         mem_mb = config['call_orfs_mem_mb'],
@@ -89,8 +88,7 @@ rule cluster_orfs:
     output:
         join(dirs.OUT, '1_mmseqs','merged_rep_seq.fasta'),
         join(dirs.OUT, '1_mmseqs','merged_cluster.tsv'),
-    conda:
-        join(config['env_yamls'], 'annotations.yaml'),           
+    conda: "bakta",        
     log:
         join(dirs.LOG, 'mmseqs2', 'std.out'),
     threads: config['cluster_orfs_threads'],
@@ -130,8 +128,7 @@ rule index_gene_catalog:
         join(dirs.OUT, '1_mmseqs', 'merged_filt_seq.fasta'),
     output:
         join(dirs.OUT, '1_mmseqs','merged_filt_seq.dmnd'),
-    conda:
-        join(config['env_yamls'], 'annotations.yaml'),           
+    conda: "bakta",           
     resources:
         mem_mb = config['index_gene_catalog_mem_mb'],
     shell:
@@ -158,8 +155,7 @@ rule run_alignments:
         idx = join(dirs.OUT, '1_mmseqs','merged_filt_seq.dmnd'),
     output:
         join(dirs.OUT, '2_diamond','{sample}.tsv'),
-    conda:
-        join(config['env_yamls'], 'annotations.yaml'),           
+    conda: "bakta",         
     log:
         join(dirs.LOG,'diamond','{sample}.log'),
     threads: config['run_alignments_threads'],
