@@ -33,24 +33,16 @@ conda env create -f configs/conda/gene-catalog.yaml
 conda activate gene_catalog
 ```
 
-3. Download the database dependencies for Bakta and AMRFinder. The easiest way to do this is to install the Bakta/AMRFinder environment using `--dry_run` (see below for explanation) and then activating the Bakta/AMRFinder conda environment to use its database download command. Make sure you update the `parameters.yaml` file with its location. Use absolute (not relative) paths when downloading the Bakta databases.
+3. Set up the rest of the module interactively by running `setup.sh`. This will install the necessary conda environments (if they have not been installed already) and generate `parameters.yaml` as well as set up the paths in `test_data/samples.csv` for testing. 
 ```Bash
-python /path/to/camp_gene-catalog/workflow/gene-catalog.py --dry_run \
-    -d /home/lam4003/bin/camp_gene-catalog/test_out \
-    -s /home/lam4003/bin/camp_gene-catalog/test_data/samples.csv
+source setup.sh
 
-# In the directory /path/to/camp_gene-catalog/conda_envs/, find the environment ID that corresponds to Bakta and AMRFinder
-
-# Activate the conda environment that corresponds to CheckM2
-conda activate /path/to/camp_gene-catalog/conda_envs/bakta_env_id
-
-bakta_db download --output /path/to/bakta_db
-amrfinder_update --database /path/to/bakta_db/amrfinderplus-db
+# If you encounter issues where conda activate is not recognized, follow these steps to properly initialize Conda
+conda init
+source ~/.bashrc # or source ~/.zshrc
 ```
 
-4. Update the parameters `ext` and `bakta_db` in `test_data/parameters.yaml`.
-
-5. Make sure the installed pipeline works correctly. With 40 threads and a maximum of 80 GB allocated, the test dataset should finish in approximately 43 minutes.
+4. Make sure the installed pipeline works correctly. With 40 threads and a maximum of 80 GB allocated, the test dataset should finish in approximately 43 minutes.
 ```Bash
 # Run tests on the included sample dataset
 python /path/to/camp_gene-catalog/workflow/gene-catalog.py test
