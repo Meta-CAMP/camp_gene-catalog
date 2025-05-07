@@ -117,6 +117,7 @@ install_database() {
             BAKTA_DB_PATH="$INSTALL_BASE/bakta_db"
             echo "📡 Downloading Bakta DB to $BAKTA_DB_PATH..."
             bakta_db download --output "$BAKTA_DB_PATH" --type full
+            conda deactivate
             FINAL_DB_PATH="$BAKTA_DB_PATH/db"
             echo "✅ Bakta database installed successfully!"
             ;;
