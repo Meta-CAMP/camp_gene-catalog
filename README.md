@@ -1,6 +1,6 @@
 # Gene Catalog
 
-[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.3.6-brightgreen)
+[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.4.0-brightgreen)
 
 <!-- [![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) -->
 
@@ -15,26 +15,34 @@ This module generates and functionally annotates a gene catalog from assembled c
 > [!TIP]
 > All databases used in CAMP modules will also be available for download on Zenodo (link TBD).
 
+### Install `conda`
+
+If you don't already have `conda` handy, we recommend installing `miniforge`, which is a minimal conda installer that, by default, installs packages from open-source community-driven channels such as `conda-forge`.
+```Bash
+# If you don't already have conda on your system...
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+```
+
+Run the following command to initialize Conda for your shell. This will configure your shell to recognize conda activate. 
+```Bash
+conda init
+```
+
+Restart your terminal or run:
+```Bash
+source ~/.bashrc  # For bash users
+source ~/.zshrc   # For zsh users
+```
+### Setting up the Gene Cataloguing Module
+
 1. Clone repo from [Github](<https://github.com/Meta-CAMP/camp_gene-catalog>).
 ```Bash
 git clone https://github.com/Meta-CAMP/camp_gene-catalog
 ```
 
-2. Set up the conda environment using `configs/conda/gene-catalog.yaml`. 
-
-If you don't already have `conda` handy, we recommend installing `miniforge`, which is a minimal conda installer that, by default, installs packages from open-source community-driven channels such as `conda-forge`.
+2. Set up the rest of the module interactively by running `setup.sh`. This will install the necessary conda environments (if they have not been installed already) and generate `parameters.yaml` as well as set up the paths in `test_data/samples.csv` for testing. 
 ```Bash
-# If you don't already have conda on your system...
-# wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-
-# Create and activate conda environment 
-cd camp_gene-catalog
-conda env create -f configs/conda/gene-catalog.yaml
-conda activate gene_catalog
-```
-
-3. Set up the rest of the module interactively by running `setup.sh`. This will install the necessary conda environments (if they have not been installed already) and generate `parameters.yaml` as well as set up the paths in `test_data/samples.csv` for testing. 
-```Bash
+cd camp_gene-catalog/
 source setup.sh
 
 # If you encounter issues where conda activate is not recognized, follow these steps to properly initialize Conda
@@ -42,9 +50,10 @@ conda init
 source ~/.bashrc # or source ~/.zshrc
 ```
 
-4. Make sure the installed pipeline works correctly. With 40 threads and a maximum of 80 GB allocated, the test dataset should finish in approximately 43 minutes.
+3. Make sure the installed pipeline works correctly. With 40 threads and a maximum of 80 GB allocated, the test dataset should finish in approximately 43 minutes.
 ```Bash
 # Run tests on the included sample dataset
+conda activate camp
 python /path/to/camp_gene-catalog/workflow/gene-catalog.py test
 ```
 
@@ -53,8 +62,6 @@ python /path/to/camp_gene-catalog/workflow/gene-catalog.py test
 **Input**: `/path/to/samples.csv` provided by the user.
 
 **Output**: TODO
-
-- `/path/to/work/dir/short_read_qc/final_reports/samples.csv` for ingestion by the next module
 
 ### Module Structure
 ```
@@ -87,6 +94,7 @@ To run CAMP on the command line, use the following, where `/path/to/work/dir` is
     - Relative or absolute paths to the Snakefile and/or the working directory (if you're running elsewhere) are accepted!
     - The parameters and resource config YAMLs can also be customized.
 ```Bash
+conda activate camp
 python /path/to/camp_gene-catalog/workflow/gene-catalog.py \
     (-c number_of_cores_allocated) \
     (-p /path/to/parameters.yaml) \
@@ -101,6 +109,7 @@ To run CAMP on a job submission cluster (for now, only Slurm is supported), use 
     - `--slurm` is an optional flag that submits all rules in the Snakemake pipeline as `sbatch` jobs. 
     - In Slurm mode, the `-c` flag refers to the maximum number of `sbatch` jobs submitted in parallel, **not** the pool of cores available to run the jobs. Each job will request the number of cores specified by threads in `configs/resources/slurm.yaml`.
 ```Bash
+conda activate camp
 sbatch -J jobname -o jobname.log << "EOF"
 #!/bin/bash
 python /path/to/camp_gene-catalog/workflow/gene-catalog.py --slurm \
