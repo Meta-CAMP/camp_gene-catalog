@@ -1,8 +1,9 @@
 # Gene Catalog
 
-[![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()![Version](https://img.shields.io/badge/version-0.4.1-brightgreen)
+![Version](https://img.shields.io/badge/version-0.5.0-brightgreen)
 
 <!-- [![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) -->
+<!-- [![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()-->
 
 ## Overview
 

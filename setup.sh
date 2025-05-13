@@ -38,7 +38,7 @@ find_install_camp_env() {
         echo "✅ The main CAMP environment is already installed in $DEFAULT_CONDA_ENV_DIR."
     else
         echo "🚀 Installing the main CAMP environment in $DEFAULT_CONDA_ENV_DIR/..."
-        conda create --prefix "$DEFAULT_CONDA_ENV_DIR/camp" -c conda-forge -c bioconda biopython blast bowtie2 bumpversion click click-default-group cookiecutter jupyter matplotlib numpy pandas samtools scikit-learn scipy seaborn snakemake umap-learn upsetplot
+        conda create --prefix "$DEFAULT_CONDA_ENV_DIR/camp" -c conda-forge -c bioconda biopython blast bowtie2 bumpversion click click-default-group cookiecutter jupyter matplotlib numpy pandas samtools scikit-learn scipy seaborn snakemake=7.32.4 umap-learn upsetplot
         echo "✅ The main CAMP environment has been installed successfully!"
     fi
 }
@@ -72,7 +72,7 @@ ask_database() {
     echo "🛠️  Checking for $DB_NAME database..."
 
     while true; do
-        read -p "❓ Do you already have $DB_NAME installed? (y/n): " RESPONSE
+        read -p "❓ Do you already have the $DB_NAME database installed? (y/n): " RESPONSE
         case "$RESPONSE" in
             [Yy]* )
                 while true; do
@@ -275,8 +275,11 @@ EOF
 echo "✅ parameters.yaml file created successfully in configs/"
 
 # Modify test_data/samples.csv
-sed -i.bak "s|/path/to/camp_gene-catalog|$MODULE_WORK_DIR|g" $MODULE_WORK_DIR/test_data/samples.csv
+INPUT_CSV="$MODULE_WORK_DIR/test_data/samples.csv" 
+echo "🚀 Generating test_data/samples.csv in $INPUT_CSV ..."
 
-echo "✅ samples.csv successfully created in test_data/"
+sed -i.bak "s|/path/to/camp_gene-catalog|$MODULE_WORK_DIR|g" $INPUT_CSV
+
+echo "✅ Test data input CSV created at: $INPUT_CSV"
 
 echo "🎯 Setup complete! You can now test the workflow using \`python workflow/gene_catalog.py test\`"
