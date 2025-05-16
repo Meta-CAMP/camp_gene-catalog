@@ -85,22 +85,19 @@ ask_database() {
                         echo "⚠️ The provided path does not exist or is empty. Please check and try again."
                         read -p "Do you want to re-enter the path (r) or install $DB_NAME instead (i)? (r/i): " RETRY
                         if [[ "$RETRY" == "i" ]]; then
-                            break  # Exit inner loop to start installation
+                            break  # Exit outer loop to start installation
                         fi
                     fi
                 done
-                if [[ "$RETRY" == "i" ]]; then
-                    break  # Exit outer loop to install the database
-                fi
                 ;;
             [Nn]* )
-                read -p "📂 Enter the directory where you want to install $DB_NAME: " DB_PATH
-                install_database "$DB_NAME" "$DB_VAR_NAME" "$DB_PATH"
-                return  # Exit function after installation
-                ;;
+                break # Exit outer loop to start installation
+                ;; 
             * ) echo "⚠️ Please enter 'y(es)' or 'n(o)'.";;
         esac
     done
+    read -p "📂 Enter the directory where you want to install $DB_NAME: " DB_PATH
+    install_database "$DB_NAME" "$DB_VAR_NAME" "$DB_PATH"
 }
 
 # Install databases in the specified directory
@@ -115,9 +112,10 @@ install_database() {
     case "$DB_VAR_NAME" in
         "bakta")
             conda activate bakta 
-            BAKTA_DB_PATH="$INSTALL_BASE/bakta_db"
+            BAKTA_DB_PATH="$INSTALL_DIR/bakta_db"
             echo "📡 Downloading Bakta DB to $BAKTA_DB_PATH..."
             bakta_db download --output "$BAKTA_DB_PATH" --type full
+            chmod -R a+X "$BAKTA_DB_PATH/db/amrfinderplus-db"
             conda deactivate
             FINAL_DB_PATH="$BAKTA_DB_PATH/db"
             echo "✅ Bakta database installed successfully!"

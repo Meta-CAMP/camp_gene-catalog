@@ -5,5 +5,11 @@ workflow/.DS_Store
 
 .DS_Store
 
+# Other
 .idea/
 test_data/samples.csv.bak
+.snakemake/
+test_out/
+gene-catalog.out
+workflow/__pycache__/utils.cpython-312.pyc
+test_data/parameters_demo.yaml

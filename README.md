@@ -1,6 +1,6 @@
 # Gene Catalog
 
-![Version](https://img.shields.io/badge/version-0.5.0-brightgreen)
+![Version](https://img.shields.io/badge/version-0.6.0-brightgreen)
 
 <!-- [![Documentation Status](https://img.shields.io/readthedocs/camp-gene_catalog)](https://camp-documentation.readthedocs.io/en/latest/gene_catalog.html) -->
 <!-- [![Documentation Status](https://img.shields.io/badge/docs-unknown-yellow.svg)]()-->
@@ -51,7 +51,7 @@ conda init
 source ~/.bashrc # or source ~/.zshrc
 ```
 
-3. Make sure the installed pipeline works correctly. With 40 threads and a maximum of 80 GB allocated, the test dataset should finish in approximately 43 minutes.
+3. Make sure the installed pipeline works correctly. With 10 threads and a maximum of 40 GB allocated, the test dataset should finish in approximately 80 minutes.
 ```Bash
 # Run tests on the included sample dataset
 conda activate camp

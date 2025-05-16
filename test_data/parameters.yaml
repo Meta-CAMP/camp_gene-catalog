@@ -1,12 +1,13 @@
 #'''Parameters config.'''#
 
 
-ext: '/path/to/bin/camp_gene-catalog/workflow/ext/scripts'
+ext: ''
+conda_prefix: ''
 
 
 # --- call_orfs --- #
 
-bakta_db: 
+bakta_db: ''
 
 
 # --- cluster_orfs --- #
