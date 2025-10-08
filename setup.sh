@@ -3,7 +3,7 @@
 # --- Functions ---
 
 show_welcome() {
-    clear  # Clear the screen for a clean look
+    #clear  # Clear the screen for a clean look
 
     echo ""
     sleep 0.2
@@ -187,14 +187,19 @@ declare -A DATABASE_PATHS
 
 # Ask for all required databases
 ask_database "Bakta" "bakta"
+if [[ -f "${DATABASE_PATHS[bakta]}/version.json" ]]; then
+	BAKTA_DB_PATH="${DATABASE_PATHS[bakta]}"
+elif [[ -d "${DATABASE_PATHS[bakta]}/db" && -f "${DATABASE_PATHS[bakta]}/db/version.json" ]]; then
+	BAKTA_DB_PATH="${DATABASE_PATHS[bakta]}/db"
+else
+    echo "❌ Invalid Bakta DB directory: missing version.json"
+    return 1
+fi
 
 # --- Generate parameter configs ---
 
 # Default values for analysis parameters
 EXT_PATH="$MODULE_WORK_DIR/workflow/ext"  # Assuming extensions are in workflow/ext
-
-# Use existing paths from DATABASE_PATHS
-BAKTA_DB_PATH="${DATABASE_PATHS[bakta]}"
 
 echo "🚀 Generating parameter configs ..."
 
@@ -250,7 +255,7 @@ conda_prefix: '$DEFAULT_CONDA_ENV_DIR'
 
 # --- call_orfs --- #
 
-bakta_db: '$BAKTA_DB_PATH/db'
+bakta_db: '$BAKTA_DB_PATH'
 
 
 # --- cluster_orfs --- #
